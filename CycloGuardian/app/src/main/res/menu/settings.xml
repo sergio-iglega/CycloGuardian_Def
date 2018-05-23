@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+    android:id="@+id/conWifi"
+    android:title="Configure Wifi">
+    </item>
+
+    <item
+        android:id="@+id/conGPS"
+        android:title="Configure GPS">
+    </item>
+
+    <item
+        android:id="@+id/conBLE"
+        android:title="Configure Bluetooth">
+    </item>
+
+    <item
+        android:id="@+id/linkCamera"
+        android:title="Link Camera">
+    </item>
+
+    <item
+        android:id="@+id/linHardware"
+        android:title="Link Device">
+    </item>
+
+</menu>
