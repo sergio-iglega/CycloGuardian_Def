@@ -25,4 +25,19 @@ public interface RestInterface {
     @Multipart
     @POST("/api/uploadPhoto")
     Call<UploadPhotoResponse> uploadPhoto(@Part MultipartBody.Part image, @Part("name") RequestBody name);
+
+    @GET("/registrarSesion/{uuidSesion}/{idUser}/{sesionStart}/{sesionEnd}/{timeElapsed}")
+    Call<ServerDataResponse> signUpSession(@Path("uuidSesion") String uuidSesion, @Path("idUser") String idUser,
+                                           @Path("sesionStart") String sesionStart, @Path("sesionEnd") String sesionEnd,
+                                           @Path("timeElapsed") long timeElapsed);
+
+    @GET("/registrarIncidencia/{uuidIncidencia}/{uuidSesion}/{latitud}/{longitud}/{timeIncidence}/{distanceSensor}")
+    Call<ServerDataResponse> signUpIncidence(@Path("uuidIncidencia") String uuidIncidencia, @Path("uuidSesion") String uuidSesion,
+                                             @Path("latitud") double latitud, @Path("longitud") double longitud,
+                                             @Path("timeIncidence") String timeIncidence, @Path("distanceSensor") float distanceSensor);
+
+
+    @GET("/registrarFoto/{uuidPhoto}/{uuidIncidencia}/{namePhoto}/{rutaAndroid}")
+    Call<ServerDataResponse> signUpPhoto(@Path("uuidPhoto") String uuidPhoto, @Path("uuidIncidencia") String uuidIncidencia,
+                                         @Path("namePhoto") String namePhoto, @Path("rutaAndroid") String rutaAndroid);
 }

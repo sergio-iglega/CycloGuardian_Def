@@ -28,7 +28,7 @@ public class FragmentGallery extends Fragment {
     ImageView imageView;
     View mView;
     ConstraintLayout constraintLayout;
-    TextView textViewLoc;
+    TextView textViewTitle;
     ViewGroup cont;
 
     //Object myAplication
@@ -61,7 +61,7 @@ public class FragmentGallery extends Fragment {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_galeria, container, false);
         imageView = (ImageView) mView.findViewById(R.id.imageViewPhoto);
-        textViewLoc = (TextView) mView.findViewById(R.id.textViewLocalizacion);
+        textViewTitle = (TextView) mView.findViewById(R.id.textViewTitle);
         constraintLayout = (ConstraintLayout) mView.findViewById(R.id.relativeGallery);
 
         if (lastImage != -1) {
@@ -84,6 +84,7 @@ public class FragmentGallery extends Fragment {
 
     private void showImage(final Photo photo, int index) {
         this.lastImage = index;
+        textViewTitle.setText(photo.getNamePhoto());
         Uri pathUri = Uri.parse(photo.getRutaInterna());
         Glide.with(this.getActivity())
                     .load(photo.getUrl())

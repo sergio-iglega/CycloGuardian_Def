@@ -59,6 +59,8 @@ public class SignupActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        msgSignUp = getString(R.string.conexion_server_fail);
     }
 
     public void signup() {
@@ -110,6 +112,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<SignUpResponse> call, Throwable t) {
                 call.cancel();
+                msgSignUp = getString(R.string.conexion_server_fail);
             }
         });
 

@@ -69,6 +69,8 @@ public class LoginActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_SIGNUP);
             }
         });
+
+        msgLogin = getString(R.string.conexion_server_fail);
     }
 
     public void login() {
@@ -120,6 +122,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 call.cancel();
+                msgLogin = getString(R.string.conexion_server_fail);
             }
         });
 

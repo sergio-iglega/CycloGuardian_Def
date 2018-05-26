@@ -128,6 +128,28 @@ public class MainActivity extends AppCompatActivity {
                             if (drawerItem.getIdentifier() == 1) {
 
                             }
+
+                            if (drawerItem.getIdentifier() == 2) {
+                                Intent intent = new Intent(MainActivity.this, SettignsActivity.class);
+                                startActivity(intent);
+                            }
+
+                            if (drawerItem.getIdentifier() == 3) {
+
+                            }
+
+                            if (drawerItem.getIdentifier() == 4) {
+
+                            }
+
+                            if (drawerItem.getIdentifier() == 5) {
+                                //TODO remove registry from DataBase
+
+                                //Change to login Activity
+                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                startActivity(intent);
+
+                            }
                         }
 
                         return false;

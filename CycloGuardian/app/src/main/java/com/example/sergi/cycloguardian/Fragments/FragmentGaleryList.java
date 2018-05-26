@@ -31,7 +31,7 @@ public class FragmentGaleryList extends Fragment {
     Gallery simpleGallery;
     IncidenceAdapter incidenceAdapter;
     ImageView selectedImageView;
-    TextView textViewName, textViewDate, textViewDir;
+    TextView textViewName, textViewDate;
 
     public FragmentGaleryList() {
         // Required empty public constructor
@@ -55,7 +55,6 @@ public class FragmentGaleryList extends Fragment {
 
         //TextView
         textViewDate = (TextView) mView.findViewById(R.id.textViewDate);
-        textViewDir = (TextView) mView.findViewById(R.id.textViewDir);
         textViewName = (TextView) mView.findViewById(R.id.textViewName);
 
         //Pattern from the date
@@ -76,7 +75,6 @@ public class FragmentGaleryList extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // set the selected image in the ImageView
                 Glide.with(getContext()).load(incidenceList.get(position).getImage().getUrl()).into(selectedImageView);
-                textViewDir.setText(String.valueOf(incidenceList.get(position).getPosicion()));
                 textViewName.setText(incidenceList.get(position).getImage().getNamePhoto());
                 textViewDate.setText(simpleDateFormat.format(incidenceList.get(position).getTimeIncidence()));
                 //
