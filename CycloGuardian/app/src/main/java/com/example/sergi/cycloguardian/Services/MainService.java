@@ -31,6 +31,7 @@ import com.example.sergi.cycloguardian.Database.AppDataBase;
 import com.example.sergi.cycloguardian.Database.IncidenceEntity;
 import com.example.sergi.cycloguardian.Database.PhotoEntity;
 import com.example.sergi.cycloguardian.Database.SessionEntity;
+import com.example.sergi.cycloguardian.Database.UserEntity;
 import com.example.sergi.cycloguardian.Events.SensorEvent;
 import com.example.sergi.cycloguardian.Events.ThersholdEvent;
 import com.example.sergi.cycloguardian.Files.Photo;
@@ -739,7 +740,7 @@ public class MainService extends Service {
                 Log.i("DB", "Create Session in DB");
                 SessionEntity sessionEntity = new SessionEntity();
                 sessionEntity.setUuid(mySession.getSessionUUID().toString());
-                sessionEntity.setUserId(1);  //TODO change to real user
+                sessionEntity.setUserId(mySession.getUserID());  
 
                 //Save to database
                 appDataBase.sessionDao().insertSession(sessionEntity);

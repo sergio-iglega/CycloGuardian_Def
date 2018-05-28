@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.example.sergi.cycloguardian.Database.AppDataBase;
 import com.example.sergi.cycloguardian.Database.UserEntity;
+import com.example.sergi.cycloguardian.MyApplication;
 import com.example.sergi.cycloguardian.R;
 import com.example.sergi.cycloguardian.Utils.Constants;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     Drawer result;
     AppDataBase myDb;
     private SharedPreferences prefs;
+    MyApplication myApplication;
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -86,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
         //Get the DataBase
         myDb = AppDataBase.getAppDataBase(this);
 
+        //Get the aplication object
+        myApplication = ((MyApplication)this.getApplication());
+
         // Handle Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -93,6 +98,9 @@ public class MainActivity extends AppCompatActivity {
 
         //Get the actual user
         myUser = myDb.userDao().getUserById(getUserIdSharedPreferences());
+
+        //Set the sesion user
+        myApplication.mySession.setUserID(myUser.getIdUser());
 
         //Set the items of the drawer
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.home).withIcon(GoogleMaterial.Icon.gmd_home);
