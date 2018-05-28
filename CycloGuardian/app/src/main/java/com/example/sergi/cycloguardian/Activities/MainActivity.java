@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sergi.cycloguardian.Database.AppDataBase;
+import com.example.sergi.cycloguardian.Database.UserEntity;
 import com.example.sergi.cycloguardian.R;
 import com.example.sergi.cycloguardian.Utils.Constants;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textWifi, textBLE, textGPS, textCam, textDisp;
     Button btnStart;
     Drawer result;
+    AppDataBase myDb;
     private SharedPreferences prefs;
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -59,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
+
+    UserEntity myUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +83,16 @@ public class MainActivity extends AppCompatActivity {
         //Get the shared preferences
         prefs = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
 
+        //Get the DataBase
+        myDb = AppDataBase.getAppDataBase(this);
+
         // Handle Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("MAIN ACTIVITY");
+
+        //Get the actual user
+        myUser = myDb.userDao().getUserById(getUserIdSharedPreferences());
 
         //Set the items of the drawer
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.home).withIcon(GoogleMaterial.Icon.gmd_home);
@@ -94,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("Mike Penz").withEmail("mikepenz@gmail.com").withIcon(getResources().getDrawable(R.drawable.profile))
+                        new ProfileDrawerItem().withEmail(myUser.getEmail()).withIcon(getResources().getDrawable(R.drawable.profile))
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
@@ -146,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (drawerItem.getIdentifier() == 5) {
                                 //TODO remove registry from DataBase
+                                removeRegisterToDataBase(myDb, myUser);
 
                                 //Remove the sharedPreferences
                                 removeSharedPreferences();
@@ -183,6 +195,8 @@ public class MainActivity extends AppCompatActivity {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
+
+        Log.i("UserID", Integer.toString(myUser.getIdUser()));
 
         //Comprobamos si el wifi esta activado
         WifiManager wifiServ = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -519,5 +533,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void removeSharedPreferences() {
         prefs.edit().clear().apply();
+    }
+
+    private void removeRegisterToDataBase(AppDataBase appDataBase, UserEntity userEntity) {
+        appDataBase.userDao().deleteUser(userEntity);
+
+    }
+
+    private int getUserIdSharedPreferences() {
+        return prefs.getInt("idUser", -1);
     }
 }

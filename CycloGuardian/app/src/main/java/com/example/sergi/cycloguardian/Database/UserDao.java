@@ -22,4 +22,7 @@ public interface UserDao {
 
     @Delete
     void deleteUser(UserEntity userEntity);
+
+    @Query("select * from users where idUser like :idUser")
+    UserEntity getUserById(int idUser);
 }

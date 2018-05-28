@@ -11,12 +11,13 @@ import com.example.sergi.cycloguardian.Models.Incidence;
  * Created by sergi on 23/04/2018.
  */
 
-@Database(entities = {SessionEntity.class, PhotoEntity.class, IncidenceEntity.class}, version = 2)
+@Database(entities = {SessionEntity.class, PhotoEntity.class, IncidenceEntity.class, UserEntity.class}, version = 3)
 public abstract class AppDataBase extends RoomDatabase {
 
     public abstract SessionDao sessionDao();
     public abstract IncidenceDao incidenceDao();
     public abstract PhotoDao photoDao();
+    public abstract UserDao userDao();
     private static AppDataBase myAppDataBase = null;
 
 

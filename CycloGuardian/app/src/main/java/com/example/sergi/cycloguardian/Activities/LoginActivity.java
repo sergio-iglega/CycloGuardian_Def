@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sergi.cycloguardian.Database.AppDataBase;
+import com.example.sergi.cycloguardian.Database.UserEntity;
 import com.example.sergi.cycloguardian.MyApplication;
 import com.example.sergi.cycloguardian.R;
 import com.example.sergi.cycloguardian.Retrofit.APIClient;
@@ -40,7 +41,8 @@ public class LoginActivity extends AppCompatActivity {
     Boolean loginSuccess = false;
     MyApplication myApplication;
     String msgLogin;
-    AppDataBase myDB;
+    Integer idUser;
+    AppDataBase myDb;
 
 
     @Override
@@ -75,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         msgLogin = getString(R.string.conexion_server_fail);
 
         prefs = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+        myDb = AppDataBase.getAppDataBase(this);
 
     }
 
@@ -107,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                 String type = loginResponse.getType();
                 String acceso = loginResponse.getAcceso();
                 String rval = loginResponse.getRval();
-                Integer idUser = loginResponse.getIdUser();
+                idUser = loginResponse.getIdUser();
 
                 if (acceso.equals(Constants.SERVER_LOGIN_SUCCESS)) {
                     //myApplication.mySession.setUserID(idUser);
@@ -136,7 +139,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
                         if (loginSuccess) {
-                            saveOnPreferences(email, password);
+                            saveOnPreferences(email, password, idUser);
+                            createRegisterToDataBase(myDb, idUser, email, password);
                             onLoginSuccess();
 
                         } else
@@ -203,11 +207,22 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
-    private void saveOnPreferences(String email, String password) {
+    private void saveOnPreferences(String email, String password, int idUser) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("email", email);
         editor.putString("password", password);
+        editor.putInt("idUser", idUser);
         editor.apply();
 
+    }
+
+    private void createRegisterToDataBase(AppDataBase dataBase, int idUser, String email, String password) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setIdUser(idUser);
+        userEntity.setEmail(email);
+        userEntity.setPassword(password);
+
+        //Save to DB
+        dataBase.userDao().insertUser(userEntity);
     }
 }
