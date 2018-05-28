@@ -4,9 +4,9 @@ import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sergi.cycloguardian.Database.AppDataBase;
 import com.example.sergi.cycloguardian.R;
 import com.example.sergi.cycloguardian.Utils.Constants;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -30,7 +31,6 @@ import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.holder.StringHolder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
@@ -41,8 +41,6 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 import static android.net.wifi.WifiManager.WIFI_STATE_ENABLED;
 
@@ -54,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textWifi, textBLE, textGPS, textCam, textDisp;
     Button btnStart;
     Drawer result;
+    private SharedPreferences prefs;
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -75,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
         textGPS = (TextView) findViewById(R.id.textViewGPS);
         textCam = (TextView) findViewById(R.id.textViewCamera);
         textDisp = (TextView) findViewById(R.id.textViewDevice);
+
+        //Get the shared preferences
+        prefs = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
 
         // Handle Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -145,8 +147,12 @@ public class MainActivity extends AppCompatActivity {
                             if (drawerItem.getIdentifier() == 5) {
                                 //TODO remove registry from DataBase
 
+                                //Remove the sharedPreferences
+                                removeSharedPreferences();
+
                                 //Change to login Activity
                                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
 
                             }
@@ -229,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
             imCam.setColorFilter(Color.RED);
             imDisp.setColorFilter(Color.RED);
         }
+
 
     }
 
@@ -483,6 +490,7 @@ public class MainActivity extends AppCompatActivity {
         //Iniciamos otra actividad
         if (cameraBol == true && dispositivoBool == true && bluetoothBol == true && gpsBol == true && wifiBol == true) {
             Intent intent = new Intent(this, StartActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } else {
             if(cameraBol == false) {
@@ -507,5 +515,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private void removeSharedPreferences() {
+        prefs.edit().clear().apply();
     }
 }

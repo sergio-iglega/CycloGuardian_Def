@@ -3,16 +3,17 @@ package com.example.sergi.cycloguardian.Activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sergi.cycloguardian.Database.AppDataBase;
 import com.example.sergi.cycloguardian.MyApplication;
 import com.example.sergi.cycloguardian.R;
 import com.example.sergi.cycloguardian.Retrofit.APIClient;
@@ -24,13 +25,13 @@ import mehdi.sakout.fancybuttons.FancyButton;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
+    private SharedPreferences prefs;
 
     EditText _emailText, _passwordText;
     FancyButton _loginButton;
@@ -39,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     Boolean loginSuccess = false;
     MyApplication myApplication;
     String msgLogin;
+    AppDataBase myDB;
 
 
     @Override
@@ -71,6 +73,9 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         msgLogin = getString(R.string.conexion_server_fail);
+
+        prefs = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+
     }
 
     public void login() {
@@ -89,8 +94,8 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
 
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
+        final String email = _emailText.getText().toString();
+        final String password = _passwordText.getText().toString();
 
         // TODO: Implement your own authentication logic here.
         Call<LoginResponse> loginResponseCall = restInterface.loginUser(email, password);
@@ -131,6 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
                         if (loginSuccess) {
+                            saveOnPreferences(email, password);
                             onLoginSuccess();
 
                         } else
@@ -159,7 +165,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginSuccess() {
+
+        //Change to start Activity
         Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         _loginButton.setEnabled(true);
         finish();
@@ -192,5 +201,13 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    private void saveOnPreferences(String email, String password) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("email", email);
+        editor.putString("password", password);
+        editor.apply();
+
     }
 }
