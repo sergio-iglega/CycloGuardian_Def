@@ -3,6 +3,8 @@ package com.example.sergi.cycloguardian.Retrofit;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -40,4 +42,22 @@ public interface RestInterface {
     @GET("/registrarFoto/{uuidPhoto}/{uuidIncidencia}/{namePhoto}/{rutaAndroid}")
     Call<ServerDataResponse> signUpPhoto(@Path("uuidPhoto") String uuidPhoto, @Path("uuidIncidencia") String uuidIncidencia,
                                          @Path("namePhoto") String namePhoto, @Path("rutaAndroid") String rutaAndroid);
+
+    @POST("/api/registro/sesion")
+    Call<ServerDataResponse> signUpSesion(@Field("uuidSesion") String uuidSesion, @Field("idUser") int idUser,
+                                          @Field("sesionStart") String sesionStart, @Field("sesionEnd") String sesionEnd,
+                                          @Field("timeElapsed") long timeElapsed);
+
+    @POST("/api/registro/foto")
+    Call<ServerDataResponse> signUpPhotoPost(@Field("uuidPhoto") String uuidPhoto, @Field("uuidIncidencia") String uuidIncidencia,
+                                         @Field("namePhoto") String namePhoto, @Field("rutaAndroid") String rutaAndroid);
+
+    @POST("/api/registro/incidencia")
+    Call<ServerDataResponse> signUpIncidencia(@Field("uuidIncidencia") String uuidIncidencia, @Field("uuidSesion") String uuidSesion,
+                                              @Field("latitud") double latitud, @Field("longitud") double longitud,
+                                              @Field("timeIncidence") String timeIncidence, @Field("distanceSensor") float distanceSensor);
+
+    @POST("/api/registro/usuario")
+    Call<SignUpResponse> signUpUserPost(@Field("name") String name, @Field("lastname") String lastname, @Field("phone") String phone,
+                                    @Field("email") String email, @Field("password") String password);
 }

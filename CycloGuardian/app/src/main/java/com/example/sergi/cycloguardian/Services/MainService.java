@@ -740,7 +740,7 @@ public class MainService extends Service {
                 Log.i("DB", "Create Session in DB");
                 SessionEntity sessionEntity = new SessionEntity();
                 sessionEntity.setUuid(mySession.getSessionUUID().toString());
-                sessionEntity.setUserId(mySession.getUserID());  
+                sessionEntity.setUserId(mySession.getUserID());
 
                 //Save to database
                 appDataBase.sessionDao().insertSession(sessionEntity);

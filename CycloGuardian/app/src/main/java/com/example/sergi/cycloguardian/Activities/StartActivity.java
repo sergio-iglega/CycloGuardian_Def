@@ -181,7 +181,7 @@ public class StartActivity extends AppCompatActivity {
 
         if (sessionEntity == null) {
             sessionEntity = new SessionEntity();
-            sessionEntity.setUserId(2);  //TODO poner usuario real
+            sessionEntity.setUserId(session.getUserID());  //TODO poner usuario real
             sessionEntity.setUuid(session.getSessionUUID().toString());
             sessionEntity.setTimeElapssed(session.getTimeElapsedSession());
             sessionEntity.setSessionStart(session.getSessionStart().toString());
