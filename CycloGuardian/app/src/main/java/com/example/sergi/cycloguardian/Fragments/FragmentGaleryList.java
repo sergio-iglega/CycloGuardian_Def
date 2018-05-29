@@ -17,10 +17,13 @@ import com.example.sergi.cycloguardian.Models.Incidence;
 import com.example.sergi.cycloguardian.MyApplication;
 import com.example.sergi.cycloguardian.R;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
 
 
 public class FragmentGaleryList extends Fragment {
@@ -88,6 +91,7 @@ public class FragmentGaleryList extends Fragment {
     }
 
     //Subscripción al evento
+    @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     public void onEvent(final ThersholdEvent event) {
         //Toast.makeText(getActivity(), "HOLA", Toast.LENGTH_SHORT).show();
       incidenceList = myApplication.mySession.getIncidenceArryList();

@@ -1,6 +1,7 @@
 package com.example.sergi.cycloguardian.Retrofit;
 
 import com.example.sergi.cycloguardian.Utils.Constants;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
@@ -15,7 +16,10 @@ public class APIClient {
     private static Retrofit retrofit = null;
 
     public static Retrofit getRetrofit() {
-        OkHttpClient client = new OkHttpClient.Builder().build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addNetworkInterceptor(new StethoInterceptor())
+                .build();
+
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(Constants.SERVER_URL)

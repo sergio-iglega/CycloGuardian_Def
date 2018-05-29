@@ -27,10 +27,12 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.Random;
-
-import de.greenrobot.event.EventBus;
 
 
 public class FragmentMap extends Fragment implements OnMapReadyCallback{
@@ -78,6 +80,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback{
 
 
     // This method will be called when a ThersholEvent is posted
+    @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     public void onEvent(ThersholdEvent event){
         // Implementation when somo event was recive
         Log.i("MAP", String.valueOf(myApplication.mySession.getIncidenceArryList().get(event.getPosIncidence()).getPosicion()));

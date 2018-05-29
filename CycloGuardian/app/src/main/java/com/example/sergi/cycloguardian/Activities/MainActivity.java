@@ -40,10 +40,12 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.polidea.rxandroidble2.scan.ScanFilter;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
 
 import static android.net.wifi.WifiManager.WIFI_STATE_ENABLED;
 
@@ -204,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
             );
         }
 
-        Log.i("UserID", Integer.toString(myUser.getIdUser()));
+//        Log.i("UserID", Integer.toString(myUser.getIdUser()));
 
         //Comprobamos si el wifi esta activado
         WifiManager wifiServ = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -551,4 +553,6 @@ public class MainActivity extends AppCompatActivity {
     private int getUserIdSharedPreferences() {
         return prefs.getInt("idUser", -1);
     }
+
+
 }

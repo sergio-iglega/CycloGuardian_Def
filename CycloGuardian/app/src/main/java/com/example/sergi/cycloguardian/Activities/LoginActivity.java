@@ -134,13 +134,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //loginSuccess = true;
+
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
                         if (loginSuccess) {
-                            saveOnPreferences(email, password, idUser);
-                            createRegisterToDataBase(myDb, idUser, email, password);
+                            //saveOnPreferences(email, password, idUser);
+                            //createRegisterToDataBase(myDb, idUser, email, password);
                             onLoginSuccess();
 
                         } else

@@ -32,6 +32,9 @@ import com.example.sergi.cycloguardian.Database.IncidenceEntity;
 import com.example.sergi.cycloguardian.Database.PhotoEntity;
 import com.example.sergi.cycloguardian.Database.SessionEntity;
 import com.example.sergi.cycloguardian.Database.UserEntity;
+import com.example.sergi.cycloguardian.Events.BluetoothMessage;
+import com.example.sergi.cycloguardian.Events.ConnectBLEEvent;
+import com.example.sergi.cycloguardian.Events.DisconnectBLEEvent;
 import com.example.sergi.cycloguardian.Events.SensorEvent;
 import com.example.sergi.cycloguardian.Events.ThersholdEvent;
 import com.example.sergi.cycloguardian.Files.Photo;
@@ -54,11 +57,18 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.polidea.rxandroidble2.NotificationSetupMode;
+import com.polidea.rxandroidble2.RxBleConnection;
+import com.polidea.rxandroidble2.RxBleDevice;
 
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -75,7 +85,12 @@ import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
-import de.greenrobot.event.EventBus;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 /**
  * Created by sergi on 25/03/2018.
@@ -156,15 +171,11 @@ public class MainService extends Service {
     //Object myAplication
     MyApplication myApplication;
 
-    public MainService getMainService() {
-        return mainService;
-    }
 
-    public void setMainService(MainService mainService) {
-        this.mainService = mainService;
-    }
-
-    MainService mainService;
+    public static String HM_RX_TX = "0000ffe1-0000-1000-8000-00805f9b34fb";
+    private RxBleDevice bleDevice;
+    private Disposable connectionDisposable;
+    private RxBleConnection.RxBleConnectionState currentState;
 
 
     public MainService() {
@@ -172,6 +183,9 @@ public class MainService extends Service {
 
     @Override
     public void onCreate() {
+
+        EventBus.getDefault().register(this); //Registro al bus de evnetos
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         myApplication = ((MyApplication)this.getApplication());
@@ -186,7 +200,6 @@ public class MainService extends Service {
 
         myApplication.mySession.setSessionUUID(UUID.randomUUID());
 
-        setMainService(this);
         createLocationRequest();
         getLastLocation();
         randomDistanceGenerator();
@@ -207,7 +220,76 @@ public class MainService extends Service {
             // Set the Notification Channel for the Notification Manager.
             mNotificationManager.createNotificationChannel(mChannel);
         }
+
+
+        connect(new ConnectBLEEvent("7C:01:0A:5F:40:45"));
+
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
+    public void connect(ConnectBLEEvent connectBLEEvent){
+
+        // We create a bluetooth ble device from MAC Address
+        String macAddress = connectBLEEvent.getMacAddress();
+        bleDevice = MyApplication.getRxBleClient(this).getBleDevice(macAddress);
+
+        // We listen for changes in the state of the device
+        bleDevice.observeConnectionStateChanges()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<RxBleConnection.RxBleConnectionState>() {
+                    @Override
+                    public void accept(RxBleConnection.RxBleConnectionState rxBleConnectionState) throws Exception {
+                        currentState = rxBleConnectionState;
+                    }
+                });
+
+        connectionDisposable = bleDevice.establishConnection(true)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(this::dispose)// establish the connection
+                .flatMap(new Function<RxBleConnection, ObservableSource<Observable<byte[]>>>() {
+                    @Override
+                    public ObservableSource<Observable<byte[]>> apply(RxBleConnection rxBleConnection) throws Exception {
+                        return rxBleConnection.setupNotification(UUID.fromString(HM_RX_TX), NotificationSetupMode.COMPAT);
+                    }
+                })
+                .subscribe(bytes -> {
+                    bytes.subscribe(new Consumer<byte[]>() {
+                        @Override
+                        public void accept(byte[] bytes) throws Exception {
+                            String msg = new String(bytes, "UTF-8");
+                                    Log.d("MainService", msg);
+                            EventBus.getDefault().post(new BluetoothMessage(msg));
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
+                            Log.d("MainService", throwable.getMessage());
+                        }
+                    });
+                }, throwable -> {
+                    Log.d("MainService", throwable.getMessage());
+                });
+
+    }
+
+    private void dispose(){
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
+    private void disconnect(DisconnectBLEEvent disconnectBLEEvent){
+        connectionDisposable = null;
+        dispose();
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    private void onBluetoothMessage(BluetoothMessage bluetoothMessage){
+
+        //TODO QUEUE LOGIC A MANY MANY MORE...
+        Log.d("BluetoothMessages","Sensor1"+bluetoothMessage.getSensor1()+" Sensor2"+bluetoothMessage.getSensor2());
+    }
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -279,6 +361,7 @@ public class MainService extends Service {
     public void onDestroy() {
         Log.i(TAG, "Service stopped");
         mServiceHandler.removeCallbacksAndMessages(null);
+        EventBus.getDefault().unregister(this);
     }
 
     /**
@@ -643,9 +726,7 @@ public class MainService extends Service {
                         incidence.setPosicion(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()));
                     }
 
-
-                    Glide
-                            .with(getMainService())
+                    Glide.with(getBaseContext())
                             .load(photo.getUrl())
                             .asBitmap()
                             .into(new SimpleTarget<Bitmap>(300,300) {
@@ -695,7 +776,7 @@ public class MainService extends Service {
                     EventBus.getDefault().post(thersholdEvent);
 
                     //Save to database
-                    AppDataBase myDB = AppDataBase.getAppDataBase(getMainService());
+                    AppDataBase myDB = AppDataBase.getAppDataBase(getBaseContext());
                     saveSessionToDataBase(myDB, myApplication.mySession);
                     saveIncidenceToDataBase(myDB, incidence);
 
@@ -740,7 +821,7 @@ public class MainService extends Service {
                 Log.i("DB", "Create Session in DB");
                 SessionEntity sessionEntity = new SessionEntity();
                 sessionEntity.setUuid(mySession.getSessionUUID().toString());
-                sessionEntity.setUserId(mySession.getUserID());
+                sessionEntity.setUserId(mySession.getUserID());  //TODO poner usuario real
 
                 //Save to database
                 appDataBase.sessionDao().insertSession(sessionEntity);
@@ -750,6 +831,8 @@ public class MainService extends Service {
         }
 
         private void saveIncidenceToDataBase(AppDataBase appDataBase, Incidence myIncidence) {
+
+
             IncidenceEntity incidenceEntity = new IncidenceEntity();
             incidenceEntity.setIdSession(myIncidence.getSessionUUID().toString());
             incidenceEntity.setLatitude(myIncidence.getPosicion().latitude);
@@ -763,6 +846,7 @@ public class MainService extends Service {
 
             //Save the photo to database
             savePhotoToDataBase(appDataBase, myIncidence.getImage());
+
 
         }
 

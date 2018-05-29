@@ -18,9 +18,12 @@ import com.example.sergi.cycloguardian.MyApplication;
 import com.example.sergi.cycloguardian.R;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.File;
 
-import de.greenrobot.event.EventBus;
 
 
 public class FragmentGallery extends Fragment {
@@ -75,6 +78,7 @@ public class FragmentGallery extends Fragment {
     }
 
     //Capture of event
+    @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     public void onEvent(ThersholdEvent thersholdEvent) {
         //Toast.makeText(getActivity(), myApplication.mySession.getIncidenceArryList().get(thersholdEvent.getPosIncidence()).getImage().getNamePhoto(), Toast.LENGTH_SHORT).show();;
         lastImage = thersholdEvent.getPosIncidence();

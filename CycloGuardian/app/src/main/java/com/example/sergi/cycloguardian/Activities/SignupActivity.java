@@ -84,7 +84,7 @@ public class SignupActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         // TODO: Implement your own signup logic here.
-        Call<SignUpResponse> signUpResponseCall = restInterface.signUpUser(name, " ", " ", email, password);
+        Call<SignUpResponse> signUpResponseCall = restInterface.signUpUserPost(name, " ", " ", email, password);
         signUpResponseCall.enqueue(new Callback<SignUpResponse>() {
             @Override
             public void onResponse(Call<SignUpResponse> call, Response<SignUpResponse> response) {

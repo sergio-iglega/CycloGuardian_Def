@@ -23,12 +23,15 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Queue;
 
-import de.greenrobot.event.EventBus;
 
 public class FragmentGraph extends Fragment {
 
@@ -313,6 +316,7 @@ public class FragmentGraph extends Fragment {
     }
 
     // This method will be called when a HelloWorldEvent is posted
+    @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     public void onEvent(SensorEvent event){
        float dateSen1, dateSen2;
        dateSen1 = event.getSensor1();
