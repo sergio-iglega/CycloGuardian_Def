@@ -32,14 +32,11 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    private SharedPreferences prefs;
-
     EditText _emailText, _passwordText;
     FancyButton _loginButton;
     TextView _signupLink;
     RestInterface restInterface;
     Boolean loginSuccess = false;
-    MyApplication myApplication;
     String msgLogin;
     Integer idUser;
     AppDataBase myDb;
@@ -49,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        myApplication = ((MyApplication)this.getApplication());
         restInterface = APIClient.getRetrofit().create(RestInterface.class);
         _emailText = (EditText) findViewById(R.id.input_email);
         _passwordText = (EditText) findViewById(R.id.input_password);
@@ -76,7 +72,6 @@ public class LoginActivity extends AppCompatActivity {
 
         msgLogin = getString(R.string.conexion_server_fail);
 
-        prefs = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         myDb = AppDataBase.getAppDataBase(this);
 
     }
@@ -91,10 +86,11 @@ public class LoginActivity extends AppCompatActivity {
 
         _loginButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.ThemeOverlay_AppCompat_Dark_ActionBar);
+        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
+        progressDialog.setTitle("Authentication");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("Checking credentials");
         progressDialog.show();
 
         final String email = _emailText.getText().toString();
@@ -113,7 +109,6 @@ public class LoginActivity extends AppCompatActivity {
                 idUser = loginResponse.getIdUser();
 
                 if (acceso.equals(Constants.SERVER_LOGIN_SUCCESS)) {
-                    //myApplication.mySession.setUserID(idUser);
                     loginSuccess = true;
                 } else {
                     loginSuccess = false;
@@ -141,8 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
                         if (loginSuccess) {
-                            //saveOnPreferences(email, password, idUser);
-                            //createRegisterToDataBase(myDb, idUser, email, password);
+                            createRegisterToDataBase(myDb, idUser, email, password);
                             onLoginSuccess();
 
                         } else
@@ -209,14 +203,6 @@ public class LoginActivity extends AppCompatActivity {
         return valid;
     }
 
-    private void saveOnPreferences(String email, String password, int idUser) {
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("email", email);
-        editor.putString("password", password);
-        editor.putInt("idUser", idUser);
-        editor.apply();
-
-    }
 
     private void createRegisterToDataBase(AppDataBase dataBase, int idUser, String email, String password) {
         UserEntity userEntity = new UserEntity();

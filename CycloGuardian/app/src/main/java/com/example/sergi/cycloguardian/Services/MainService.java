@@ -724,6 +724,8 @@ public class MainService extends Service {
                     if (mLocation != null) {
                         Log.i("LOC", String.valueOf(mLocation.getLatitude()) + " " + String.valueOf(mLocation.getLongitude()));
                         incidence.setPosicion(new LatLng(mLocation.getLatitude(), mLocation.getLongitude()));
+                    } else {
+                        incidence.setPosicion(new LatLng(0.0, 0.0));
                     }
 
                     Glide.with(getBaseContext())

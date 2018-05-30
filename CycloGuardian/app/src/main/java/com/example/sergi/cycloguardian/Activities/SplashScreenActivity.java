@@ -13,20 +13,23 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.example.sergi.cycloguardian.Database.AppDataBase;
+import com.example.sergi.cycloguardian.Database.UserEntity;
 import com.example.sergi.cycloguardian.R;
 import com.example.sergi.cycloguardian.Utils.Constants;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
     private SharedPreferences prefs;
+    AppDataBase myAppDataBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        myAppDataBase = AppDataBase.getAppDataBase(this);
         // Set portrait orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         // Hide title bar
@@ -49,7 +52,8 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                if (!TextUtils.isEmpty(getUserMailSharedPreferences()) && !TextUtils.isEmpty(getUserPasswordSharedPreferences())) {
+
+                if(isUserInDataBase(myAppDataBase)) {
                     //User just logged
                     Intent mainActivity = new Intent(SplashScreenActivity.this, MainActivity.class);
                     startActivity(mainActivity);
@@ -70,6 +74,18 @@ public class SplashScreenActivity extends AppCompatActivity {
         // Simulate a long loading process on application startup.
         Timer timer = new Timer();
         timer.schedule(task, Constants.SPLASH_SCREEN_DELAY);
+    }
+
+    private boolean isUserInDataBase(AppDataBase myAppDataBase) {
+        Boolean logged = false;
+
+        List<UserEntity> myUserlist = myAppDataBase.userDao().getAll();
+        Log.i("SIZE", String.valueOf(myUserlist.size()));
+        if(myUserlist.size() == 1){
+            logged = true;
+        }
+
+        return logged;
     }
 
     private String getUserMailSharedPreferences() {

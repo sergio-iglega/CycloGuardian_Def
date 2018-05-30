@@ -79,6 +79,12 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback{
     }
 
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
     // This method will be called when a ThersholEvent is posted
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     public void onEvent(ThersholdEvent event){

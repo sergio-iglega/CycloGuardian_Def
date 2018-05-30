@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
     Button btnStart;
     Drawer result;
     AppDataBase myDb;
-    private SharedPreferences prefs;
     MyApplication myApplication;
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -84,9 +83,6 @@ public class MainActivity extends AppCompatActivity {
         textCam = (TextView) findViewById(R.id.textViewCamera);
         textDisp = (TextView) findViewById(R.id.textViewDevice);
 
-        //Get the shared preferences
-        prefs = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
-
         //Get the DataBase
         myDb = AppDataBase.getAppDataBase(this);
 
@@ -96,10 +92,11 @@ public class MainActivity extends AppCompatActivity {
         // Handle Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("MAIN ACTIVITY");
+        getSupportActionBar().setTitle(R.string.title_home);
 
         //Get the actual user
-        myUser = myDb.userDao().getUserById(getUserIdSharedPreferences());
+        List<UserEntity> userEntityList = myDb.userDao().getAll();
+        myUser = userEntityList.get(0);  //We take my user from the list, because we only have one user
 
         //Set the sesion user
         myApplication.mySession.setUserID(myUser.getIdUser());
@@ -110,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
         SecondaryDrawerItem item3 = new SecondaryDrawerItem().withIdentifier(3).withName(R.string.help).withIcon(GoogleMaterial.Icon.gmd_help);
         SecondaryDrawerItem item4 = new SecondaryDrawerItem().withIdentifier(4).withName(R.string.info).withIcon(GoogleMaterial.Icon.gmd_info);
         SecondaryDrawerItem item5 = new SecondaryDrawerItem().withIdentifier(5).withName(R.string.logout).withIcon(GoogleMaterial.Icon.gmd_person_outline);
+        SecondaryDrawerItem item6 = new SecondaryDrawerItem().withIdentifier(6).withName(R.string.license).withIcon(GoogleMaterial.Icon.gmd_bookmark);
         //Account header
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -140,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                         item2,
                         item3,
                         item4,
+                        item6,
                         new DividerDrawerItem(),
                         item5
                 )
@@ -169,13 +168,14 @@ public class MainActivity extends AppCompatActivity {
                                 //TODO remove registry from DataBase
                                 removeRegisterToDataBase(myDb, myUser);
 
-                                //Remove the sharedPreferences
-                                removeSharedPreferences();
-
                                 //Change to login Activity
                                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
+
+                            }
+
+                            if (drawerItem.getIdentifier() == 6) {
 
                             }
                         }
@@ -264,64 +264,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.settings, menu);
-
-        if (cameraBol == true) {
-            menu.removeItem(R.id.linkCamera);
-        }
-
-        if (wifiBol == true) {
-            menu.removeItem(R.id.conWifi);
-        }
-
-        if (bluetoothBol == true) {
-            menu.removeItem(R.id.conBLE);
-        }
-
-        if(gpsBol == true) {
-            menu.removeItem(R.id.conGPS);
-        }
-
-        if(dispositivoBool == true) {
-            menu.removeItem(R.id.linHardware);
-        }
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.conWifi: {
-                    configureWifi();
-                break;
-            }
-            case R.id.conGPS: {
-                    configureGPS();
-                break;
-            }
-            case R.id.conBLE: {
-                    configureBluetooth();
-                break;
-            }
-
-            case R.id.linkCamera: {
-                    linkCamera();
-                break;
-            }
-
-            case R.id.linHardware: {
-                    linkDevice();
-                break;
-            }
-        }
-        return true;
-    }
-
-    private void configureWifi() {
+    public void configureWifi(View view) {
         WifiManager wifiServ = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wifiServ.isWifiEnabled()){
             Toast.makeText(this, getText(R.string.wifi_enabled), Toast.LENGTH_LONG).show();
@@ -344,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void configureGPS() {
+    public void configureGPS(View view) {
         LocationManager locationManager = (LocationManager)getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Toast.makeText(this, getText(R.string.gps_enabled), Toast.LENGTH_LONG).show();
@@ -380,7 +323,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void configureBluetooth() {
+    public void configureBluetooth(View view) {
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter.isEnabled()) {
             Toast.makeText(this, getText(R.string.bluetooth_enabled), Toast.LENGTH_LONG).show();
@@ -405,7 +348,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void linkCamera() {
+    public void linkCamera(View view) {
         WifiManager wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         Boolean cameraNetworkEnabled = false;
         if (wifi.getWifiState() == WIFI_STATE_ENABLED) {
@@ -490,7 +433,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void linkDevice() {
+    public void linkDevice(View view) {
         textDisp.setError(null);
         dispositivoBool = true;
     }
@@ -541,17 +484,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void removeSharedPreferences() {
-        prefs.edit().clear().apply();
-    }
 
     private void removeRegisterToDataBase(AppDataBase appDataBase, UserEntity userEntity) {
         appDataBase.userDao().deleteUser(userEntity);
 
-    }
-
-    private int getUserIdSharedPreferences() {
-        return prefs.getInt("idUser", -1);
     }
 
 

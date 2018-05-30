@@ -315,6 +315,12 @@ public class FragmentGraph extends Fragment {
         return mView;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
     // This method will be called when a HelloWorldEvent is posted
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     public void onEvent(SensorEvent event){

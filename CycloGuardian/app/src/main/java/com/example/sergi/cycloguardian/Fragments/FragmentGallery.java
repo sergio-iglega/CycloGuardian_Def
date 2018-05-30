@@ -77,6 +77,12 @@ public class FragmentGallery extends Fragment {
         return mView;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
     //Capture of event
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     public void onEvent(ThersholdEvent thersholdEvent) {

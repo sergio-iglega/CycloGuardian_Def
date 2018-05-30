@@ -13,11 +13,12 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
 
-        <ImageView android:src="@drawable/logo"
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="72dp"
+            android:layout_height="109dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"
-            android:layout_gravity="center_horizontal" />
+            android:src="@drawable/logo" />
 
         <!-- Email Label -->
         <android.support.design.widget.TextInputLayout
@@ -57,8 +58,8 @@
             android:layout_marginBottom="24dp"
             fancy:fb_borderColor="#FFFFFF"
             fancy:fb_borderWidth="1dp"
-            fancy:fb_defaultColor="#ff5f69"
-            fancy:fb_focusColor="#ff838b"
+            fancy:fb_defaultColor="#ffea00"
+            fancy:fb_focusColor="#f5e57e"
             fancy:fb_fontIconResource="@string/icon_user"
             fancy:fb_iconPosition="left"
             fancy:fb_radius="30dp"

@@ -8,6 +8,50 @@
     android:theme="@style/AppTheme.NoActionBar2"
     tools:context="com.example.sergi.cycloguardian.Activities.MainActivity">
 
+    <ImageButton
+        android:id="@+id/imageButtonDevice"
+        android:layout_width="46dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="302dp"
+        android:onClick="linkDevice"
+        fancy:layout_constraintStart_toStartOf="parent"
+        fancy:layout_constraintTop_toBottomOf="@+id/textView3"
+        fancy:srcCompat="@mipmap/ic_settings" />
+
+    <ImageButton
+        android:id="@+id/imageButtonCamera"
+        android:layout_width="46dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="232dp"
+        android:onClick="linkCamera"
+        fancy:layout_constraintStart_toStartOf="parent"
+        fancy:layout_constraintTop_toBottomOf="@+id/textView3"
+        fancy:srcCompat="@mipmap/ic_settings" />
+
+    <ImageButton
+        android:id="@+id/imageButtonBluetooth"
+        android:layout_width="46dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="164dp"
+        android:onClick="configureBluetooth"
+        fancy:layout_constraintStart_toStartOf="parent"
+        fancy:layout_constraintTop_toBottomOf="@+id/textView3"
+        fancy:srcCompat="@mipmap/ic_settings" />
+
+    <ImageButton
+        android:id="@+id/imageButtonGPS"
+        android:layout_width="46dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="94dp"
+        android:onClick="configureGPS"
+        fancy:layout_constraintStart_toStartOf="parent"
+        fancy:layout_constraintTop_toBottomOf="@+id/textView3"
+        fancy:srcCompat="@mipmap/ic_settings" />
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -22,7 +66,7 @@
         android:layout_width="23dp"
         android:layout_height="18dp"
         android:layout_marginEnd="95dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewCamera"
         app:srcCompat="@android:color/holo_red_dark" />
@@ -32,7 +76,7 @@
         android:layout_width="23dp"
         android:layout_height="18dp"
         android:layout_marginEnd="95dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewBluetooth"
         app:srcCompat="@android:color/holo_red_dark" />
@@ -42,7 +86,7 @@
         android:layout_width="23dp"
         android:layout_height="18dp"
         android:layout_marginEnd="95dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="49dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewGPS"
         app:srcCompat="@android:color/holo_red_dark" />
@@ -52,7 +96,7 @@
         android:layout_width="23dp"
         android:layout_height="18dp"
         android:layout_marginEnd="95dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewWifi"
         app:srcCompat="@android:color/holo_red_dark" />
@@ -81,14 +125,15 @@
             fancy:fb_textColor="#FFFFFF" />
 
     <TextView
-        fontPath="fonts/SeaBalance.ttf"
         android:id="@+id/textViewWifi"
+        fontPath="fonts/SeaBalance.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="67dp"
-        android:layout_marginTop="31dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="32dp"
         android:text="Wifi:"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="10pt"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonWifi"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
         tools:ignore="MissingPrefix" />
 
@@ -97,7 +142,7 @@
         android:layout_width="23dp"
         android:layout_height="18dp"
         android:layout_marginEnd="95dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="44dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
         app:srcCompat="@android:color/holo_red_dark" />
@@ -132,40 +177,55 @@
         android:id="@+id/textViewGPS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="67dp"
+        android:layout_marginStart="19dp"
         android:layout_marginTop="40dp"
         android:text="GPS"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="10pt"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonGPS"
         app:layout_constraintTop_toBottomOf="@+id/textViewWifi" />
 
     <TextView
         android:id="@+id/textViewBluetooht"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="67dp"
+        android:layout_marginStart="19dp"
         android:layout_marginTop="40dp"
         android:text="Bluetooh"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="10pt"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonBluetooth"
         app:layout_constraintTop_toBottomOf="@+id/textViewGPS" />
 
     <TextView
         android:id="@+id/textViewCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="67dp"
+        android:layout_marginStart="19dp"
         android:layout_marginTop="40dp"
         android:text="@string/camera_name"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="10pt"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonCamera"
         app:layout_constraintTop_toBottomOf="@+id/textViewBluetooht" />
 
     <TextView
         android:id="@+id/textViewDevice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="67dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="44dp"
         android:text="@string/device"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="10pt"
+        app:layout_constraintStart_toEndOf="@+id/imageButtonDevice"
         app:layout_constraintTop_toBottomOf="@+id/textViewCamera" />
+
+    <ImageButton
+        android:id="@+id/imageButtonWifi"
+        android:layout_width="46dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="22dp"
+        android:onClick="configureWifi"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        fancy:srcCompat="@mipmap/ic_settings" />
 
 </android.support.constraint.ConstraintLayout>
