@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                         // do something with the clicked item :D
                         if(drawerItem != null) {
                             if (drawerItem.getIdentifier() == 1) {
-
+                                //drawerItem.withSetSelected(true);
                             }
 
                             if (drawerItem.getIdentifier() == 2) {
@@ -176,6 +176,8 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             if (drawerItem.getIdentifier() == 6) {
+                                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                                startActivity(intent);
 
                             }
                         }

@@ -81,4 +81,11 @@ dependencies {
 
     //AppIntro library
     implementation 'com.github.apl-devs:appintro:v4.2.3'
+
+    //About libraries
+    implementation "com.mikepenz:aboutlibraries:6.0.8"
+
+    //required support lib modules
+    compile 'com.android.support:cardview-v7:26.1.0'
+
 }
