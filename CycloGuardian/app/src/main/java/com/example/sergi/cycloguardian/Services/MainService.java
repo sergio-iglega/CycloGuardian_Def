@@ -256,7 +256,7 @@ public class MainService extends Service {
                     bytes.subscribe(new Consumer<byte[]>() {
                         @Override
                         public void accept(byte[] bytes) throws Exception {
-                            String msg = new String(bytes, "UTF-8");
+                            String msg = new String(bytes, 0);
                                     Log.d("MainService", msg);
                             EventBus.getDefault().post(new BluetoothMessage(msg));
                         }

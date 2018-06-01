@@ -79,6 +79,10 @@
     <string name="title_activity_settings">Settings</string>
     <string name="conexion_server_fail">The connection with the server fail</string>
     <string name="license">Licenses</string>
+    <string name="min_3_character">At least 3 characters</string>
+    <string name="validate_phone">Enter a valid phone</string>
+    <string name="validate_email">Enter a valid email address</string>
+    <string name="validate_password">Between 4 and 10 alphanumeric characters</string>
 
 
 </resources>

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +29,8 @@ public class SignupActivity extends AppCompatActivity {
     EditText _nameText;
     EditText _emailText;
     EditText _passwordText;
+    EditText _lastName;
+    EditText _phone;
     FancyButton _signupButton;
     TextView _loginLink;
     RestInterface restInterface;
@@ -42,6 +45,8 @@ public class SignupActivity extends AppCompatActivity {
         _nameText = (EditText) findViewById(R.id.input_name);
         _emailText = (EditText) findViewById(R.id.input_email);
         _passwordText = (EditText) findViewById(R.id.input_password);
+        _lastName = (EditText) findViewById(R.id.input_lastname);
+        _phone = (EditText) findViewById(R.id.input_phone);
         _signupButton = (FancyButton) findViewById(R.id.btn_signup);
         _loginLink = (TextView) findViewById(R.id.link_login);
 
@@ -83,9 +88,11 @@ public class SignupActivity extends AppCompatActivity {
         String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
+        String lastname = _lastName.getText().toString();
+        String phone = _phone.getText().toString();
 
         // TODO: Implement your own signup logic here.
-        Call<SignUpResponse> signUpResponseCall = restInterface.signUpUserPost(name, " ", " ", email, password);
+        Call<SignUpResponse> signUpResponseCall = restInterface.signUpUserPost(name, lastname, phone, email, password);
         signUpResponseCall.enqueue(new Callback<SignUpResponse>() {
             @Override
             public void onResponse(Call<SignUpResponse> call, Response<SignUpResponse> response) {
@@ -148,23 +155,39 @@ public class SignupActivity extends AppCompatActivity {
         String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
+        String lastname = _lastName.getText().toString();
+        String phone = _phone.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
-            _nameText.setError("At least 3 characters");
+            _nameText.setError(getText(R.string.min_3_character));
             valid = false;
         } else {
             _nameText.setError(null);
         }
 
+        if (lastname.isEmpty() || lastname.length() < 3) {
+            _lastName.setError(getText(R.string.min_3_character));
+            valid = false;
+        } else {
+            _lastName.setError(null);
+        }
+
+        if (phone.isEmpty() || !android.util.Patterns.PHONE.matcher(phone).matches()) {
+            _phone.setError(getText(R.string.validate_phone));
+            valid = false;
+        } else {
+            _phone.setError(null);
+        }
+
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("Enter a valid email address");
+            _emailText.setError(getText(R.string.validate_email));
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("Between 4 and 10 alphanumeric characters");
+            _passwordText.setError(getText(R.string.validate_password));
             valid = false;
         } else {
             _passwordText.setError(null);
