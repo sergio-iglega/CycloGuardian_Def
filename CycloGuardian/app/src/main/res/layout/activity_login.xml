@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true">
@@ -15,10 +16,10 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="109dp"
+            android:layout_height="213dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"
-            android:src="@drawable/logo" />
+            android:src="@drawable/logo_rounded" />
 
         <!-- Email Label -->
         <android.support.design.widget.TextInputLayout

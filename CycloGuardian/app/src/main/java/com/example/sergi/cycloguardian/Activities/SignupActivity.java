@@ -65,6 +65,8 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
+        getSupportActionBar().hide();
+
         msgSignUp = getString(R.string.conexion_server_fail);
     }
 

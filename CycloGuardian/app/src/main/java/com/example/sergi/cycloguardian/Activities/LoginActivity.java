@@ -70,6 +70,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        getSupportActionBar().hide();
+
         msgLogin = getString(R.string.conexion_server_fail);
 
         myDb = AppDataBase.getAppDataBase(this);
