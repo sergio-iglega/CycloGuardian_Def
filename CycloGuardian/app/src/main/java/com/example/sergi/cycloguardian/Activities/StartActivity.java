@@ -23,6 +23,7 @@ import com.example.sergi.cycloguardian.Database.IncidenceDao;
 import com.example.sergi.cycloguardian.Database.PhotoDao;
 import com.example.sergi.cycloguardian.Database.SessionDao;
 import com.example.sergi.cycloguardian.Database.SessionEntity;
+import com.example.sergi.cycloguardian.Events.DisconnectBLEEvent;
 import com.example.sergi.cycloguardian.Files.Photo;
 import com.example.sergi.cycloguardian.Fragments.FragmentGallery;
 import com.example.sergi.cycloguardian.Fragments.FragmentGaleryList;
@@ -34,6 +35,8 @@ import com.example.sergi.cycloguardian.Models.Session;
 import com.example.sergi.cycloguardian.MyApplication;
 import com.example.sergi.cycloguardian.R;
 import com.example.sergi.cycloguardian.Services.MainService;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -151,6 +154,10 @@ public class StartActivity extends AppCompatActivity {
 
     public void stopSession(View view) {
         long elapsedMillis = 0;
+
+        //Todo desconectar Bluetooth
+        EventBus.getDefault().post(new DisconnectBLEEvent());
+
         //TODO detener el servicio
         stopService(new Intent(this, MainService.class));
 
@@ -168,6 +175,7 @@ public class StartActivity extends AppCompatActivity {
 
         //TODO programar un trabajo subir Session al servidor (jobs)
         //SyncJob.schedulePeriodic();
+
 
         //Change activity
         Intent intent = new Intent(this, SummaryActivity.class);

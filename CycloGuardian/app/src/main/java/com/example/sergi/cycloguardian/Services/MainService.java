@@ -57,6 +57,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.polidea.rxandroidble2.NotificationSetupMode;
 import com.polidea.rxandroidble2.RxBleConnection;
 import com.polidea.rxandroidble2.RxBleDevice;
@@ -202,7 +204,7 @@ public class MainService extends Service {
 
         createLocationRequest();
         getLastLocation();
-        randomDistanceGenerator();
+        //randomDistanceGenerator();
         //hacerFoto();
 
         HandlerThread handlerThread = new HandlerThread(TAG);
@@ -256,9 +258,11 @@ public class MainService extends Service {
                     bytes.subscribe(new Consumer<byte[]>() {
                         @Override
                         public void accept(byte[] bytes) throws Exception {
-                            String msg = new String(bytes, 0);
+                            String msg = new String(bytes, "UTF-8");
                                     Log.d("MainService", msg);
-                            EventBus.getDefault().post(new BluetoothMessage(msg));
+                            //TODO register event dont run
+                            //EventBus.getDefault().post(new BluetoothMessage(msg));
+                            onBluetoothMessage(new BluetoothMessage(msg));
                         }
                     }, new Consumer<Throwable>() {
                         @Override
@@ -282,13 +286,14 @@ public class MainService extends Service {
         dispose();
     }
 
-
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     private void onBluetoothMessage(BluetoothMessage bluetoothMessage){
-
-        //TODO QUEUE LOGIC A MANY MANY MORE...
-        Log.d("BluetoothMessages","Sensor1"+bluetoothMessage.getSensor1()+" Sensor2"+bluetoothMessage.getSensor2());
+        SensorEvent sensorEvent = new SensorEvent();
+        sensorEvent.setSensor1(bluetoothMessage.getSensor1());
+        sensorEvent.setSensor2(bluetoothMessage.getSensor2());
+        EventBus.getDefault().post(sensorEvent);
     }
+
 
 
     @Override
