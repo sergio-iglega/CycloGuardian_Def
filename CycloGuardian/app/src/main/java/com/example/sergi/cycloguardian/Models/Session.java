@@ -17,6 +17,7 @@ public class Session {
     Date sessionEnd;
     long timeElapsedSession;
     Queue<Float> sensorDatesQueue;
+    Queue<Float> sensorDatesQueue2;
     UUID sessionUUID;
     Integer userID;
 
@@ -24,6 +25,7 @@ public class Session {
     public Session() {
         this.incidenceArryList = new ArrayList<>();
         this.sensorDatesQueue = new LinkedList<>();
+        this.sensorDatesQueue2 = new LinkedList<>();
     }
 
     //Singleton of the class
@@ -92,6 +94,14 @@ public class Session {
 
     public void setSensorDatesQueue(Queue<Float> sensorDatesQueue) {
         this.sensorDatesQueue = sensorDatesQueue;
+    }
+
+    public Queue<Float> getSensorDatesQueue2() {
+        return sensorDatesQueue2;
+    }
+
+    public void setSensorDatesQueue2(Queue<Float> sensorDatesQueue2) {
+        this.sensorDatesQueue2 = sensorDatesQueue2;
     }
 
 }

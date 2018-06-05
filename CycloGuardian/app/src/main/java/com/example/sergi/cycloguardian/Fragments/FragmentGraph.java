@@ -270,6 +270,7 @@ public class FragmentGraph extends Fragment {
         // set an alternative background color
         mChart.setBackgroundColor(Color.LTGRAY);
 
+
         //Create a thersholdline
         LimitLine limitThreshold = new LimitLine(Constants.MAX_DISTANCE, getString(R.string.thershold_line));
         limitThreshold.setLineWidth(4f);
@@ -302,7 +303,7 @@ public class FragmentGraph extends Fragment {
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setTypeface(Typeface.DEFAULT);
         leftAxis.setTextColor(Color.WHITE);
-        leftAxis.setAxisMaximum(4.0f);
+        leftAxis.setAxisMaximum(3.0f);
         leftAxis.setAxisMinimum(0f);
         leftAxis.setDrawGridLines(true);
 
@@ -387,8 +388,9 @@ public class FragmentGraph extends Fragment {
 
             // create a data object with the datasets
             LineData data = new LineData(setSensor1, setSensor2);
-            data.setValueTextColor(Color.WHITE);
-            data.setValueTextSize(9f);
+            //data.setValueTextColor(Color.WHITE);
+            //data.setValueTextSize(9f);
+            data.setDrawValues(false);
 
             // set data
             mChart.setData(data);

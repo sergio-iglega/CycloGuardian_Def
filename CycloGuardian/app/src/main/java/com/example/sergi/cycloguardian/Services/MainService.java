@@ -288,10 +288,17 @@ public class MainService extends Service {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     private void onBluetoothMessage(BluetoothMessage bluetoothMessage){
-        SensorEvent sensorEvent = new SensorEvent();
-        sensorEvent.setSensor1(bluetoothMessage.getSensor1());
-        sensorEvent.setSensor2(bluetoothMessage.getSensor2());
-        EventBus.getDefault().post(sensorEvent);
+        //Add to the queue
+        myApplication.mySession.getSensorDatesQueue().add(bluetoothMessage.getSensor1());
+        myApplication.mySession.getSensorDatesQueue2().add(bluetoothMessage.getSensor2());
+
+        //Notify event
+        if (bluetoothMessage.getSensor1() != 0 && bluetoothMessage.getSensor2() != 0) {
+            SensorEvent sensorEvent = new SensorEvent();
+            sensorEvent.setSensor1(bluetoothMessage.getSensor1());
+            sensorEvent.setSensor2(bluetoothMessage.getSensor2());
+            EventBus.getDefault().post(sensorEvent);
+        }
     }
 
 
@@ -365,6 +372,7 @@ public class MainService extends Service {
     @Override
     public void onDestroy() {
         Log.i(TAG, "Service stopped");
+        disconnect(new DisconnectBLEEvent());
         mServiceHandler.removeCallbacksAndMessages(null);
         EventBus.getDefault().unregister(this);
     }
