@@ -3,21 +3,27 @@ package com.example.sergi.cycloguardian.Activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.sergi.cycloguardian.Database.AppDataBase;
 import com.example.sergi.cycloguardian.Database.SessionEntity;
 import com.example.sergi.cycloguardian.MyApplication;
 import com.example.sergi.cycloguardian.R;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 
 import java.text.SimpleDateFormat;
 import java.util.Queue;
+
+import static com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon.gmd_done;
 
 public class SummaryActivity extends AppCompatActivity {
 
     TextView textViewDateStart, textViewDateStop, textViewTimeElapsed, textViewIncidencesNumber,
             textViewAverageOvertaking;
     Queue<Float> summaryQueue;
+    Queue<Float> summaryQueue2;
     MyApplication myApplication;
 
     @Override
@@ -28,6 +34,7 @@ public class SummaryActivity extends AppCompatActivity {
         String fechaIni, fechaFin;
         Float dateSum = 0.0f;
         Float distanceAverage = 0.0f;
+        Float dateSum2 = 0.0f;
         myApplication = ((MyApplication)this.getApplication());
 
         //Instances of the xml
@@ -56,8 +63,20 @@ public class SummaryActivity extends AppCompatActivity {
             }
         }
 
+        summaryQueue2 = myApplication.mySession.getSensorDatesQueue2();
+        Float dateQueue2;
+        int numberOfDates2 = 0;
+        if (summaryQueue2 != null) {
+            numberOfDates2 = summaryQueue2.size();
+            dateQueue2 = summaryQueue2.poll();
+            while (dateQueue2 != null) {
+                dateSum2 = dateSum2 + dateQueue2;
+                dateQueue2 = summaryQueue2.poll();
+            }
+        }
 
-        distanceAverage = dateSum / numberOfDates;
+
+        distanceAverage = ((dateSum / numberOfDates) + (dateSum2 / numberOfDates2)) / 2;
 
         //Convert miliseconds to hour:minute:seconds
         hour = myApplication.mySession.getTimeElapsedSession() / 3600000;
@@ -75,6 +94,7 @@ public class SummaryActivity extends AppCompatActivity {
         textViewTimeElapsed.append("  " + hour + ":" + minute + ":" + seconds);
         textViewIncidencesNumber.append("  " + myApplication.mySession.getIncidenceArryList().size());
         textViewAverageOvertaking.append("  " + distanceAverage);
+
 
     }
 

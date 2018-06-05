@@ -173,6 +173,9 @@ public class MainService extends Service {
     //Object myAplication
     MyApplication myApplication;
 
+    //Object Incidence
+    Incidence incidence;
+
 
     public static String HM_RX_TX = "0000ffe1-0000-1000-8000-00805f9b34fb";
     private RxBleDevice bleDevice;
@@ -288,17 +291,22 @@ public class MainService extends Service {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     private void onBluetoothMessage(BluetoothMessage bluetoothMessage){
-        //Add to the queue
-        myApplication.mySession.getSensorDatesQueue().add(bluetoothMessage.getSensor1());
-        myApplication.mySession.getSensorDatesQueue2().add(bluetoothMessage.getSensor2());
 
-        //Notify event
         if (bluetoothMessage.getSensor1() != 0 && bluetoothMessage.getSensor2() != 0) {
+            //Add to the queue
+            myApplication.mySession.getSensorDatesQueue().add(bluetoothMessage.getSensor1());
+            myApplication.mySession.getSensorDatesQueue2().add(bluetoothMessage.getSensor2());
+
+            //Notify event
             SensorEvent sensorEvent = new SensorEvent();
             sensorEvent.setSensor1(bluetoothMessage.getSensor1());
             sensorEvent.setSensor2(bluetoothMessage.getSensor2());
             EventBus.getDefault().post(sensorEvent);
+
+            //Check queue
+            checkQueue(bluetoothMessage.getSensor1(), bluetoothMessage.getSensor2());
         }
+
     }
 
 
@@ -526,7 +534,9 @@ public class MainService extends Service {
     }
 
     private void checkQueue(float dateSensor1, float dateSensor2) {
-        if(dateSensor1 < Constants.MAX_DISTANCE) {
+        if(dateSensor1 <= Constants.MAX_DISTANCE || dateSensor2 <= Constants.MAX_DISTANCE) {
+            incidence = new Incidence();
+            incidence.setDistanceSensor(dateSensor1+dateSensor2/2);
             hacerFoto();
         }
     }
@@ -729,8 +739,6 @@ public class MainService extends Service {
                 if (photo.getUrl() != null) {
                     Log.i("AsyncTask", "onPostExecute: Completed.");
 
-                    //TODO create a new incidence
-                    Incidence incidence = new Incidence();
 
                     //TODO obtain location
                     getLastLocation();
@@ -854,7 +862,7 @@ public class MainService extends Service {
             incidenceEntity.setLongitude(myIncidence.getPosicion().longitude);
             incidenceEntity.setUuid(myIncidence.getMyUUID().toString());
             incidenceEntity.setTimeIncidence(myIncidence.getTimeIncidence().toString());
-            //TODO save the real distance --> SAve also in the incidence
+            incidenceEntity.setDistanceSensor(myIncidence.getDistanceSensor());
 
             //Save to database
             appDataBase.incidenceDao().insertIncidence(incidenceEntity);

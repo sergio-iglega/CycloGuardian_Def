@@ -361,6 +361,9 @@ public class FragmentGraph extends Fragment {
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
 
+            //limit the number of visible entries
+            mChart.setVisibleXRangeMaximum(20);
+
         } else {
             //Create a dataset and give it a type --> setSensor1
             setSensor1 = new LineDataSet(yAXESsen1, getString(R.string.sensor1_footer));

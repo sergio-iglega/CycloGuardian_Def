@@ -10,12 +10,13 @@
         android:id="@+id/textViewTitleSummary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="44dp"
+        android:fontFamily="@font/alfa_slab_one"
         android:text="SUMARY OF THE SESSION"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="@color/colorTitleSummary"
-        android:textSize="15dp"
+        android:textColor="@color/md_blue_300"
+        android:textSize="11pt"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -68,4 +69,6 @@
         android:text="@string/text_averageOvertaking"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewNumberIncidences" />
+
+
 </android.support.constraint.ConstraintLayout>

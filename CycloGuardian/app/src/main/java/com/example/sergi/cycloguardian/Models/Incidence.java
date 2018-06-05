@@ -21,6 +21,7 @@ public class Incidence {
     ArrayList<Double> datosSensor;
     Date timeIncidence;
     String incidenceDirection = null;
+    float distanceSensor;
 
     //Constructor of the class
     public Incidence() {
@@ -82,5 +83,13 @@ public class Incidence {
 
     public void setTimeIncidence(Date timeIncidence) {
         this.timeIncidence = timeIncidence;
+    }
+
+    public float getDistanceSensor() {
+        return distanceSensor;
+    }
+
+    public void setDistanceSensor(float distanceSensor) {
+        this.distanceSensor = distanceSensor;
     }
 }

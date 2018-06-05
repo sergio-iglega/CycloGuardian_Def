@@ -19,7 +19,7 @@ public class IncidenceEntity {
     double latitude;
     double longitude;
     String timeIncidence;
-    long distanceSensor;
+    float distanceSensor;
 
 
     public String getIdSession() {
@@ -62,11 +62,11 @@ public class IncidenceEntity {
         this.uuidIncidence = uuid;
     }
 
-    public long getDistanceSensor() {
+    public float getDistanceSensor() {
         return distanceSensor;
     }
 
-    public void setDistanceSensor(long distanceSensor) {
+    public void setDistanceSensor(float distanceSensor) {
         this.distanceSensor = distanceSensor;
     }
 
