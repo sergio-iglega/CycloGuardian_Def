@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 
 import com.example.sergi.cycloguardian.Events.SensorEvent;
 import com.example.sergi.cycloguardian.MyApplication;
@@ -249,6 +250,7 @@ public class FragmentGraph extends Fragment {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_grafica, container, false);
         mChart = (LineChart) mView.findViewById(R.id.chart);
+
 
        // mChart.setOnChartValueSelectedListener((OnChartValueSelectedListener) this.getContext());
 

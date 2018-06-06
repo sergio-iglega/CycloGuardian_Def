@@ -27,4 +27,7 @@ public interface PhotoDao {
 
     @Delete
     void deletePhoto(PhotoEntity photoEntity);
+
+    @Query("DELETE FROM photos")
+    void deleteAllPhotos();
 }

@@ -17,6 +17,12 @@ import com.example.sergi.cycloguardian.Retrofit.APIClient;
 import com.example.sergi.cycloguardian.Retrofit.RestInterface;
 import com.example.sergi.cycloguardian.Retrofit.SignUpResponse;
 
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+
 import mehdi.sakout.fancybuttons.FancyButton;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,7 +47,19 @@ public class SignupActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        restInterface = APIClient.getRetrofit().create(RestInterface.class);
+        try {
+            restInterface = APIClient.getRetrofit(getApplicationContext()).create(RestInterface.class);
+        } catch (CertificateException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyStoreException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         _nameText = (EditText) findViewById(R.id.input_name);
         _emailText = (EditText) findViewById(R.id.input_email);
         _passwordText = (EditText) findViewById(R.id.input_password);

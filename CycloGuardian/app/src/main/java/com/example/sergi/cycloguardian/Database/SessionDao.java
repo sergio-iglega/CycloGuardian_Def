@@ -35,4 +35,7 @@ public interface SessionDao {
     @Update
     void updateSession(SessionEntity sessionEntity);
 
+    @Query("DELETE FROM sessions")
+    void deleteAllSessions();
+
 }

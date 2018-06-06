@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ import com.polidea.rxandroidble2.scan.ScanFilter;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.util.List;
 
 
@@ -168,6 +170,9 @@ public class MainActivity extends AppCompatActivity {
                                 //TODO remove registry from DataBase
                                 removeRegisterToDataBase(myDb, myUser);
 
+                                //Remove all data of the user
+                                removeSesionsUser(myDb);
+
                                 //Change to login Activity
                                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -263,6 +268,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private void removeSesionsUser(AppDataBase myDb) {
+        myDb.sessionDao().deleteAllSessions();
+        myDb.incidenceDao().deleteAllIncidences();
+        myDb.photoDao().deleteAllPhotos();
+
+        //Remove all fotos
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/CycloGuardian");
+
+
+        if(myDir.exists())
+            myDir.delete();
     }
 
 

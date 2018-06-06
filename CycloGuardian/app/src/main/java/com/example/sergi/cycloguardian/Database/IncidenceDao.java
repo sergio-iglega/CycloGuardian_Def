@@ -25,4 +25,7 @@ public interface IncidenceDao {
 
     @Delete
     void deleteIncidence(IncidenceEntity incidenceEntity);
+
+    @Query("DELETE FROM incidences")
+    void deleteAllIncidences();
 }

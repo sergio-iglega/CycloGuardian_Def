@@ -20,12 +20,14 @@ public class Session {
     Queue<Float> sensorDatesQueue2;
     UUID sessionUUID;
     Integer userID;
+    float limitOvertaking;
 
 
     public Session() {
         this.incidenceArryList = new ArrayList<>();
         this.sensorDatesQueue = new LinkedList<>();
         this.sensorDatesQueue2 = new LinkedList<>();
+        this.limitOvertaking = 1.5f;
     }
 
     //Singleton of the class
@@ -102,6 +104,14 @@ public class Session {
 
     public void setSensorDatesQueue2(Queue<Float> sensorDatesQueue2) {
         this.sensorDatesQueue2 = sensorDatesQueue2;
+    }
+
+    public float getLimitOvertaking() {
+        return limitOvertaking;
+    }
+
+    public void setLimitOvertaking(float limitOvertaking) {
+        this.limitOvertaking = limitOvertaking;
     }
 
 }

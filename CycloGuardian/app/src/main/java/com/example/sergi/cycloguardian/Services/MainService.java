@@ -534,7 +534,7 @@ public class MainService extends Service {
     }
 
     private void checkQueue(float dateSensor1, float dateSensor2) {
-        if(dateSensor1 <= Constants.MAX_DISTANCE || dateSensor2 <= Constants.MAX_DISTANCE) {
+        if(dateSensor1 <= myApplication.mySession.getLimitOvertaking() || dateSensor2 <= myApplication.mySession.getLimitOvertaking()) {
             incidence = new Incidence();
             incidence.setDistanceSensor(dateSensor1+dateSensor2/2);
             hacerFoto();
