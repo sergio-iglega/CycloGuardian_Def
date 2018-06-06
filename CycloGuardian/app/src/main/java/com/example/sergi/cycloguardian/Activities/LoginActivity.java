@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     Boolean loginSuccess = false;
     String msgLogin;
     Integer idUser;
+    String token;
     AppDataBase myDb;
 
 
@@ -127,6 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                 String acceso = loginResponse.getAcceso();
                 String rval = loginResponse.getRval();
                 idUser = loginResponse.getIdUser();
+                token = loginResponse.getToken();
 
                 if (acceso.equals(Constants.SERVER_LOGIN_SUCCESS)) {
                     loginSuccess = true;
@@ -156,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
                         if (loginSuccess) {
-                            createRegisterToDataBase(myDb, idUser, email, password);
+                            createRegisterToDataBase(myDb, idUser, email, password, token);
                             onLoginSuccess();
 
                         } else
@@ -224,11 +226,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void createRegisterToDataBase(AppDataBase dataBase, int idUser, String email, String password) {
+    private void createRegisterToDataBase(AppDataBase dataBase, int idUser, String email, String password, String token) {
         UserEntity userEntity = new UserEntity();
         userEntity.setIdUser(idUser);
         userEntity.setEmail(email);
         userEntity.setPassword(password);
+        userEntity.setToken(token);
 
         //Save to DB
         dataBase.userDao().insertUser(userEntity);

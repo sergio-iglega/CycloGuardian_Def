@@ -17,14 +17,14 @@ public class UserEntity {
     String password;
     String email;
     String nameUser;
-    int token;
+    String token;
 
 
-    public int getToken() {
+    public String getToken() {
         return token;
     }
 
-    public void setToken(int token) {
+    public void setToken(String token) {
         this.token = token;
     }
 

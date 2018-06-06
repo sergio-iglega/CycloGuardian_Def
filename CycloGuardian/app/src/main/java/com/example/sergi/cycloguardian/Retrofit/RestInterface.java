@@ -19,39 +19,20 @@ public interface RestInterface {
     @GET("/serviceLogin/{email}/{password}")
     Call<LoginResponse> loginUser(@Path("email") String email, @Path("password") String password);
 
-    @GET("/serviceRegistro/{name}/{lastname}/{phone}/{email}/{password}")
-    Call<SignUpResponse> signUpUser(@Path("name") String name, @Path("lastname") String lastname,
-                                    @Path("phone") String phone, @Path("email") String email,
-                                    @Path("password") String password);
-
-    @GET("/registrarSesion/{uuidSesion}/{idUser}/{sesionStart}/{sesionEnd}/{timeElapsed}")
-    Call<ServerDataResponse> signUpSession(@Path("uuidSesion") String uuidSesion, @Path("idUser") String idUser,
-                                           @Path("sesionStart") String sesionStart, @Path("sesionEnd") String sesionEnd,
-                                           @Path("timeElapsed") long timeElapsed);
-
-    @GET("/registrarIncidencia/{uuidIncidencia}/{uuidSesion}/{latitud}/{longitud}/{timeIncidence}/{distanceSensor}")
-    Call<ServerDataResponse> signUpIncidence(@Path("uuidIncidencia") String uuidIncidencia, @Path("uuidSesion") String uuidSesion,
-                                             @Path("latitud") double latitud, @Path("longitud") double longitud,
-                                             @Path("timeIncidence") String timeIncidence, @Path("distanceSensor") float distanceSensor);
-
-
-    @GET("/registrarFoto/{uuidPhoto}/{uuidIncidencia}/{namePhoto}/{rutaAndroid}")
-    Call<ServerDataResponse> signUpPhoto(@Path("uuidPhoto") String uuidPhoto, @Path("uuidIncidencia") String uuidIncidencia,
-                                         @Path("namePhoto") String namePhoto, @Path("rutaAndroid") String rutaAndroid);
-
     @POST("/api/registro/sesion")
     Call<ServerDataResponse> signUpSesion(@Field("uuidSesion") String uuidSesion, @Field("idUser") int idUser,
                                           @Field("sesionStart") String sesionStart, @Field("sesionEnd") String sesionEnd,
-                                          @Field("timeElapsed") long timeElapsed);
+                                          @Field("timeElapsed") long timeElapsed, @Field("token") String token);
 
     @POST("/api/registro/foto")
     Call<ServerDataResponse> signUpPhotoPost(@Field("uuidPhoto") String uuidPhoto, @Field("uuidIncidencia") String uuidIncidencia,
-                                         @Field("namePhoto") String namePhoto, @Field("rutaAndroid") String rutaAndroid);
+                                         @Field("namePhoto") String namePhoto, @Field("rutaAndroid") String rutaAndroid, @Field("token") String token);
 
     @POST("/api/registro/incidencia")
     Call<ServerDataResponse> signUpIncidencia(@Field("uuidIncidencia") String uuidIncidencia, @Field("uuidSesion") String uuidSesion,
                                               @Field("latitud") double latitud, @Field("longitud") double longitud,
-                                              @Field("timeIncidence") String timeIncidence, @Field("distanceSensor") float distanceSensor);
+                                              @Field("timeIncidence") String timeIncidence, @Field("distanceSensor") float distanceSensor,
+                                              @Field("token") String token);
 
     @POST("/api/registro/usuario")
     Call<SignUpResponse> signUpUserPost(@Field("name") String name, @Field("lastname") String lastname, @Field("phone") String phone,
@@ -65,5 +46,5 @@ public interface RestInterface {
                                           @Part("latitud") double latitud, @Part("longitud") double longitud,
                                           @Part("timeIncidence") RequestBody timeIncidence, @Part("distanceSensor") float distance,
                                           @Part("uuidPhoto") RequestBody uuidPhoto, @Part("namePhoto") RequestBody namePhoto,
-                                          @Part("rutaAndroid") RequestBody rutaAndroid);
+                                          @Part("rutaAndroid") RequestBody rutaAndroid, @Part("token") RequestBody token);
 }

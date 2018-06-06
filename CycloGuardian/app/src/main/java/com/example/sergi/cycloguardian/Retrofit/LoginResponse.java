@@ -20,6 +20,9 @@ public class LoginResponse {
     @SerializedName("idUser")
     @Expose
     private Integer idUser;
+    @SerializedName("token")
+    @Expose
+    private String token;
 
     public String getType() {
         return type;
@@ -51,5 +54,13 @@ public class LoginResponse {
 
     public void setIdUser(Integer idUser) {
         this.idUser = idUser;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

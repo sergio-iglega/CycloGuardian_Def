@@ -115,6 +115,8 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback{
 
         setupMapIfNeeded(googleMap);
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        googleMap.getUiSettings().setScrollGesturesEnabled(false);
+        googleMap.getUiSettings().setZoomControlsEnabled(false);
 
         if (myApplication.mySession.getIncidenceArryList().isEmpty()) {
             CameraPosition cameraPosition = CameraPosition.builder().target(new LatLng(40.968725, -5.663223))
@@ -136,11 +138,9 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback{
             }
         }
 
-
-
-
-
     }
+
+
 
     public void addMarkerToMap(LatLng positionIncidence, String namePhoto) {
 

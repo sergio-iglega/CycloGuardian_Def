@@ -11,7 +11,7 @@ import com.example.sergi.cycloguardian.Models.Incidence;
  * Created by sergi on 23/04/2018.
  */
 
-@Database(entities = {SessionEntity.class, PhotoEntity.class, IncidenceEntity.class, UserEntity.class}, version = 4, exportSchema = false)
+@Database(entities = {SessionEntity.class, PhotoEntity.class, IncidenceEntity.class, UserEntity.class}, version = 5, exportSchema = false)
 public abstract class AppDataBase extends RoomDatabase {
 
     public abstract SessionDao sessionDao();
