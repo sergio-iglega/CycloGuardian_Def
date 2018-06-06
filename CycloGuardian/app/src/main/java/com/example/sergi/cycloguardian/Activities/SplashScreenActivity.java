@@ -14,6 +14,7 @@ import android.view.WindowManager;
 
 import com.example.sergi.cycloguardian.Database.AppDataBase;
 import com.example.sergi.cycloguardian.Database.UserEntity;
+import com.example.sergi.cycloguardian.Intro.IntroActivity;
 import com.example.sergi.cycloguardian.R;
 import com.example.sergi.cycloguardian.Utils.Constants;
 
@@ -52,18 +53,28 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void run() {
 
+                    if (isUserInDataBase(myAppDataBase)) {
+                        //User just logged
+                        Intent mainActivity = new Intent(SplashScreenActivity.this, MainActivity.class);
+                        startActivity(mainActivity);
 
-                if(isUserInDataBase(myAppDataBase)) {
-                    //User just logged
-                    Intent mainActivity = new Intent(SplashScreenActivity.this, MainActivity.class);
-                    startActivity(mainActivity);
+                    } else {
+                        // Start the login activity --> No logged
+                        if (getFirstTimeSharedPreferences()) {
+                            saveFirstTimeOnSharedPreferences(false);
+                            Intent intentIntro = new Intent(SplashScreenActivity.this, IntroActivity.class);
+                            Intent intentLogin = new Intent(SplashScreenActivity.this, LoginActivity.class);
 
-                } else {
-                    // Start the login activity --> No logged
-                    Intent loginIntent = new Intent().setClass(
-                            SplashScreenActivity.this, LoginActivity.class);
-                    startActivity(loginIntent);
-                }
+                            startActivities(new Intent[]{intentLogin, intentIntro});
+
+                        } else { //Is not the first time
+                            Intent loginIntent = new Intent().setClass(
+                                    SplashScreenActivity.this, LoginActivity.class);
+                            startActivity(loginIntent);
+                        }
+                    }
+
+
 
                 // Close the activity so the user won't able to go back this
                 // activity pressing Back button
@@ -74,6 +85,12 @@ public class SplashScreenActivity extends AppCompatActivity {
         // Simulate a long loading process on application startup.
         Timer timer = new Timer();
         timer.schedule(task, Constants.SPLASH_SCREEN_DELAY);
+    }
+
+    private void saveFirstTimeOnSharedPreferences(boolean b) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("first_time", b);
+        editor.apply();
     }
 
     private boolean isUserInDataBase(AppDataBase myAppDataBase) {
@@ -88,11 +105,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         return logged;
     }
 
-    private String getUserMailSharedPreferences() {
-        return prefs.getString("email", "");
+    private Boolean getFirstTimeSharedPreferences() {
+        return prefs.getBoolean("first_time", true);
     }
 
-    private String getUserPasswordSharedPreferences() {
-        return prefs.getString("password", "");
-    }
 }

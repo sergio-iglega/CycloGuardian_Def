@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.example.sergi.cycloguardian.Events.SensorEvent;
 import com.example.sergi.cycloguardian.MyApplication;
@@ -44,6 +45,8 @@ public class FragmentGraph extends Fragment {
     ArrayList<Entry> yAXESsen2 = new ArrayList<>();
     Queue<Float> miQueueSen1, miQueueSen2;
     MyApplication myApplication;
+    SeekBar seekBar;
+    TextView textViewSeek;
 
     public FragmentGraph() {
         // Required empty public constructor
@@ -249,9 +252,47 @@ public class FragmentGraph extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_grafica, container, false);
+        textViewSeek = mView.findViewById(R.id.textViewSeek);
+        seekBar = mView.findViewById(R.id.seekBar);
         mChart = (LineChart) mView.findViewById(R.id.chart);
 
 
+        //Set the seek Bar
+        seekBar.setMax(6);
+        seekBar.incrementProgressBy(1);
+        seekBar.setProgress(3);
+        textViewSeek.setText(String.valueOf(myApplication.mySession.getLimitOvertaking()) + "m");
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progrees, boolean b) {
+                float progressD=(float) progrees/2;
+                textViewSeek.setText(String.valueOf(progressD) + "m");
+
+                //Delete the las thresholdlin
+                mChart.getAxisLeft().getLimitLines().clear();
+
+                //Create a thersholdline
+                LimitLine limitThreshold = new LimitLine(progressD, getString(R.string.thershold_line));
+                mChart.getAxisLeft().addLimitLine(limitThreshold);
+                limitThreshold.setLineWidth(4f);
+                limitThreshold.setLineColor(Color.RED);
+                limitThreshold.setTextSize(12f);
+
+
+                //Set into the session
+                myApplication.mySession.setLimitOvertaking(progressD);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
        // mChart.setOnChartValueSelectedListener((OnChartValueSelectedListener) this.getContext());
 
         // enable description text
@@ -401,6 +442,7 @@ public class FragmentGraph extends Fragment {
             mChart.setData(data);
         }
     }
+
 
 
 

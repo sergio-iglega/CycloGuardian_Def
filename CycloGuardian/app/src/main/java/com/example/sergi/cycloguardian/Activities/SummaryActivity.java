@@ -7,6 +7,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.sergi.cycloguardian.Database.AppDataBase;
 import com.example.sergi.cycloguardian.Database.SessionEntity;
 import com.example.sergi.cycloguardian.MyApplication;
@@ -25,6 +26,7 @@ public class SummaryActivity extends AppCompatActivity {
     Queue<Float> summaryQueue;
     Queue<Float> summaryQueue2;
     MyApplication myApplication;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class SummaryActivity extends AppCompatActivity {
         textViewTimeElapsed = (TextView) findViewById(R.id.textViewTimeElapsed);
         textViewIncidencesNumber = (TextView) findViewById(R.id.textViewNumberIncidences);
         textViewAverageOvertaking = (TextView) findViewById(R.id.textViewAverage);
+        imageView = (ImageView) findViewById(R.id.imageView);
 
         //SimpleDateFormat for the Date
         String pattern = "EEE, d MMM yyyy  HH:mm:ss";
@@ -94,6 +97,12 @@ public class SummaryActivity extends AppCompatActivity {
         textViewTimeElapsed.append("  " + hour + ":" + minute + ":" + seconds);
         textViewIncidencesNumber.append("  " + myApplication.mySession.getIncidenceArryList().size());
         textViewAverageOvertaking.append("  " + distanceAverage);
+
+        if (myApplication.mySession.getIncidenceArryList().isEmpty()) {
+            Glide.with(this).load(R.drawable.correct).into(imageView);
+        } else {
+            Glide.with(this).load(R.drawable.fail).into(imageView);
+        }
 
 
     }

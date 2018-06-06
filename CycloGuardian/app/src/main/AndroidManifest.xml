@@ -62,7 +62,8 @@
 
         <activity android:name=".Activities.SummaryActivity" />
         <activity android:name=".Activities.SettignsActivity" />
-        <activity android:name=".Activities.AboutActivity"></activity>
+        <activity android:name=".Activities.AboutActivity" />
+        <activity android:name=".Intro.IntroActivity" android:theme="@style/Theme.Intro"></activity>
     </application>
 
 </manifest>

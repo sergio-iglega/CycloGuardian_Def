@@ -57,7 +57,7 @@
     <string name="try_later">. Try it now later</string>
     <string name="wifi_camera_disconnect">Camera wifi disconnected. Firts you have to enable the camera wifi</string>
     <string name="wifi_disabled">Red wifi desconectada. Firts you have to enable wifi</string>
-    <string name="thershold_line">1.5 m</string>
+    <string name="thershold_line">Limit</string>
     <string name="configure_camera">Please configure the Camera</string>
     <string name="configure_wifi">Please configure the WiFi</string>
     <string name="configure_GPS">Please configure the GPS</string>
@@ -83,6 +83,8 @@
     <string name="validate_phone">Enter a valid phone</string>
     <string name="validate_email">Enter a valid email address</string>
     <string name="validate_password">Between 4 and 10 alphanumeric characters</string>
+    <string name="title_slide_1">Put Components</string>
+    <string name="description_slide_1">Take your camera and your Arduino device and put them under the saddle. When you have finished, turn on both devices</string>
 
 
 </resources>

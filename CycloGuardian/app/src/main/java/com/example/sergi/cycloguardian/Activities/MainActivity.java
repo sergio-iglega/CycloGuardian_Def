@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.sergi.cycloguardian.Database.AppDataBase;
 import com.example.sergi.cycloguardian.Database.UserEntity;
+import com.example.sergi.cycloguardian.Intro.IntroActivity;
 import com.example.sergi.cycloguardian.MyApplication;
 import com.example.sergi.cycloguardian.R;
 import com.example.sergi.cycloguardian.Utils.Constants;
@@ -159,7 +160,8 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             if (drawerItem.getIdentifier() == 3) {
-
+                                Intent intent = new Intent(MainActivity.this, IntroActivity.class);
+                                startActivity(intent);
                             }
 
                             if (drawerItem.getIdentifier() == 4) {

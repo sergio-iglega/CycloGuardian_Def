@@ -10,5 +10,7 @@
     <color name="colorDivider">#BDBDBD</color>
     <color name="colorSecondaryText">#757575</color>
     <color name="colorIcons">#FFFFFF</color>
+    <color name="color_material_slide1">#9C27B0</color>
+    <color name="color_dark_material_slide1">#0277BD</color>
 
 </resources>
