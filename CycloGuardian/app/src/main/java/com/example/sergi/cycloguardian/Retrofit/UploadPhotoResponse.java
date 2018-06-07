@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by sergi on 23/05/2018.
  */
 
-class UploadPhotoResponse {
+public class UploadPhotoResponse {
     @SerializedName("type")
     @Expose
     private String type;

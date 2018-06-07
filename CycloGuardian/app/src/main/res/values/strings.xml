@@ -84,7 +84,18 @@
     <string name="validate_email">Enter a valid email address</string>
     <string name="validate_password">Between 4 and 10 alphanumeric characters</string>
     <string name="title_slide_1">Put Components</string>
-    <string name="description_slide_1">Take your camera and your Arduino device and put them under the saddle. When you have finished, turn on both devices</string>
+    <string name="description_slide_1">Take your camera and your Arduino device and put them under the saddle.
+        When you have finished, turn on both devices</string>
+    <string name="title_slide_2">Login or SignUp</string>
+    <string name="description_slide_2">After put the components into the bike you have, if you have an account you will log in.
+        If you don\'t have you would create one</string>
+    <string name="title_slide3">Settings</string>
+    <string name="description_slide3">You have to enable all the service to start one activity. You might click in
+            setting button next to name service</string>
+    <string name="permisions_granted">All permissions granted</string>
+    <string name="next">Next</string>
+    <string name="title_slide_4">Permissions</string>
+    <string name="description_slide_4">We need you to allow us to access the following services</string>
 
 
 </resources>

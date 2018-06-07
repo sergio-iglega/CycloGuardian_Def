@@ -30,4 +30,7 @@ public interface PhotoDao {
 
     @Query("DELETE FROM photos")
     void deleteAllPhotos();
+
+    @Query("SELECT * FROM photos WHERE uuidIncidence LIKE :uuidIncidencia")
+    PhotoEntity selectPhotoOfIncidence(String uuidIncidencia);
 }

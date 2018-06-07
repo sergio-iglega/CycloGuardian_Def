@@ -15,8 +15,10 @@ public class SyncJobCreator implements JobCreator {
     @Override
     public Job create(@NonNull String tag) {
         switch (tag) {
-            case SyncJob.TAG:
-                return new SyncJob();
+            case SyncJobIncidence.TAG:
+                return new SyncJobIncidence();
+            case SyncJobSesion.TAG:
+                return new SyncJobSesion();
             default:
                 return null;
         }

@@ -29,7 +29,7 @@ import com.example.sergi.cycloguardian.Fragments.FragmentGallery;
 import com.example.sergi.cycloguardian.Fragments.FragmentGaleryList;
 import com.example.sergi.cycloguardian.Fragments.FragmentGraph;
 import com.example.sergi.cycloguardian.Fragments.FragmentMap;
-import com.example.sergi.cycloguardian.Job.SyncJob;
+import com.example.sergi.cycloguardian.Job.SyncJobSesion;
 import com.example.sergi.cycloguardian.Models.Incidence;
 import com.example.sergi.cycloguardian.Models.Session;
 import com.example.sergi.cycloguardian.MyApplication;
@@ -175,7 +175,7 @@ public class StartActivity extends AppCompatActivity {
 
 
         //TODO programar un trabajo subir Session al servidor (jobs)
-        //SyncJob.schedulePeriodic();
+        SyncJobSesion.scheduleJob();
 
         //Change activity
         Intent intent = new Intent(this, SummaryActivity.class);

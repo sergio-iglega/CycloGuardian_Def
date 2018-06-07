@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/AppTheme.NoActionBar2"
-    android:background="@color/background_activity"
     tools:context="com.example.sergi.cycloguardian.Activities.MainActivity">
 
     <ImageButton

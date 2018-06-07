@@ -13,5 +13,9 @@
     <color name="color_material_slide1">#9C27B0</color>
     <color name="color_dark_material_slide1">#0277BD</color>
     <color name="background_activity">#FFEE46</color>
+    <color name="color_slide2">#083BF8</color>
+    <color name="color_slide3">#009F63</color>
+    <color name="third_slide_background">#009688</color>
+    <color name="third_slide_buttons">#004D40</color>
 
 </resources>
