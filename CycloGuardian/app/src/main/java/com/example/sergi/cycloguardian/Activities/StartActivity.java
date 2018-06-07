@@ -177,7 +177,6 @@ public class StartActivity extends AppCompatActivity {
         //TODO programar un trabajo subir Session al servidor (jobs)
         //SyncJob.schedulePeriodic();
 
-
         //Change activity
         Intent intent = new Intent(this, SummaryActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
