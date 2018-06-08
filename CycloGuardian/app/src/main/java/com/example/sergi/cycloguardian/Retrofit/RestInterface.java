@@ -19,6 +19,7 @@ public interface RestInterface {
     @GET("/serviceLogin/{email}/{password}")
     Call<LoginResponse> loginUser(@Path("email") String email, @Path("password") String password);
 
+    @FormUrlEncoded
     @POST("/api/registro/sesion")
     Call<ServerDataResponse> signUpSesion(@Field("uuidSesion") String uuidSesion, @Field("idUser") int idUser,
                                           @Field("sesionStart") String sesionStart, @Field("sesionEnd") String sesionEnd,
@@ -34,6 +35,7 @@ public interface RestInterface {
                                               @Field("timeIncidence") String timeIncidence, @Field("distanceSensor") float distanceSensor,
                                               @Field("token") String token);
 
+    @FormUrlEncoded
     @POST("/api/registro/usuario")
     Call<SignUpResponse> signUpUserPost(@Field("name") String name, @Field("lastname") String lastname, @Field("phone") String phone,
                                     @Field("email") String email, @Field("password") String password);

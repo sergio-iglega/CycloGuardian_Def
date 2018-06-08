@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.example.sergi.cycloguardian.Files.Photo;
 import com.example.sergi.cycloguardian.Models.Incidence;
 import com.example.sergi.cycloguardian.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -61,6 +62,7 @@ public class IncidenceAdapter extends BaseAdapter{
         ImageView imageView = new ImageView(context);
         //imageView.setImageResource(incidenceList.get(position).getImage().getNamePhoto()); // set image in ImageView
         Glide.with(context).load(incidenceList.get(position).getImage().getUrl()).into(imageView);
+        //Picasso.with(context).load(Photo.getPhotoFile(incidenceList.get(position).getImage().getNamePhoto())).into(imageView);
         imageView.setLayoutParams(new Gallery.LayoutParams(200, 200)); // set ImageView param
         return imageView;
     }

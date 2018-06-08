@@ -13,9 +13,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.sergi.cycloguardian.Adapter.IncidenceAdapter;
 import com.example.sergi.cycloguardian.Events.ThersholdEvent;
+import com.example.sergi.cycloguardian.Files.Photo;
 import com.example.sergi.cycloguardian.Models.Incidence;
 import com.example.sergi.cycloguardian.MyApplication;
 import com.example.sergi.cycloguardian.R;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -83,7 +85,8 @@ public class FragmentGaleryList extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // set the selected image in the ImageView
-                Glide.with(getContext()).load(incidenceList.get(position).getImage().getUrl()).into(selectedImageView);
+                //Glide.with(getContext()).load(incidenceList.get(position).getImage().getUrl()).into(selectedImageView);
+                Picasso.with(getContext()).load(Photo.getPhotoFile(incidenceList.get(position).getImage().getNamePhoto())).into(selectedImageView);
                 textViewName.setText(incidenceList.get(position).getImage().getNamePhoto());
                 textViewDate.setText(simpleDateFormat.format(incidenceList.get(position).getTimeIncidence()));
                 //

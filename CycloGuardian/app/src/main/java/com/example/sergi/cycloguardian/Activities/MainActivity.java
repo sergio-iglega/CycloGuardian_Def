@@ -55,8 +55,8 @@ import static android.net.wifi.WifiManager.WIFI_STATE_ENABLED;
 
 public class MainActivity extends AppCompatActivity {
 
-    Boolean wifiBol = false, bluetoothBol = false, gpsBol = false, cameraBol = false, dispositivoBool = false;
-    ImageView imWifi, imBLE, imGPS, imCam, imDisp;
+    Boolean wifiBol = false, bluetoothBol = false, gpsBol = false, cameraBol = false;
+    ImageView imWifi, imBLE, imGPS, imCam;
     TextView textWifi, textBLE, textGPS, textCam, textDisp;
     Button btnStart;
     Drawer result;
@@ -79,12 +79,10 @@ public class MainActivity extends AppCompatActivity {
         imBLE = (ImageView) findViewById(R.id.imageViewBluetooth);
         imGPS = (ImageView) findViewById(R.id.imageViewGPS);
         imCam = (ImageView) findViewById(R.id.imageViewCamera);
-        imDisp = (ImageView) findViewById(R.id.imageViewDispositivo);
         textWifi = (TextView) findViewById(R.id.textViewWifi);
         textBLE = (TextView) findViewById(R.id.textViewBluetooht);
         textGPS = (TextView) findViewById(R.id.textViewGPS);
         textCam = (TextView) findViewById(R.id.textViewCamera);
-        textDisp = (TextView) findViewById(R.id.textViewDevice);
 
         //Get the DataBase
         myDb = AppDataBase.getAppDataBase(this);
@@ -106,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Set the items of the drawer
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.home).withIcon(GoogleMaterial.Icon.gmd_home);
-        SecondaryDrawerItem item2 = new SecondaryDrawerItem().withIdentifier(2).withName(R.string.settings).withIcon(GoogleMaterial.Icon.gmd_settings);
         SecondaryDrawerItem item3 = new SecondaryDrawerItem().withIdentifier(3).withName(R.string.help).withIcon(GoogleMaterial.Icon.gmd_help);
         SecondaryDrawerItem item4 = new SecondaryDrawerItem().withIdentifier(4).withName(R.string.info).withIcon(GoogleMaterial.Icon.gmd_info);
         SecondaryDrawerItem item5 = new SecondaryDrawerItem().withIdentifier(5).withName(R.string.logout).withIcon(GoogleMaterial.Icon.gmd_person_outline);
@@ -138,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
                 .addDrawerItems(
                         item1,
                         new DividerDrawerItem(),
-                        item2,
                         item3,
                         item4,
                         item6,
@@ -154,14 +150,10 @@ public class MainActivity extends AppCompatActivity {
                                 //drawerItem.withSetSelected(true);
                             }
 
-                            if (drawerItem.getIdentifier() == 2) {
-                                Intent intent = new Intent(MainActivity.this, SettignsActivity.class);
-                                startActivity(intent);
-                            }
-
                             if (drawerItem.getIdentifier() == 3) {
                                 Intent intent = new Intent(MainActivity.this, IntroActivity.class);
                                 startActivity(intent);
+
                             }
 
                             if (drawerItem.getIdentifier() == 4) {
@@ -264,9 +256,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //La camara y el dispositivo no estan enlazados
-        if (cameraBol == false && dispositivoBool == false) {
+        if (cameraBol == false) {
             imCam.setColorFilter(Color.RED);
-            imDisp.setColorFilter(Color.RED);
         }
 
 
@@ -456,10 +447,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void linkDevice(View view) {
-        textDisp.setError(null);
-        dispositivoBool = true;
-    }
 
     //Para la comprobación de permisos del servicio de GPS
     private boolean checkPermissions() {
@@ -478,17 +465,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void startService(View view) {
         //Iniciamos otra actividad
-        if (cameraBol == true && dispositivoBool == true && bluetoothBol == true && gpsBol == true && wifiBol == true) {
+        if (cameraBol == true && bluetoothBol == true && gpsBol == true && wifiBol == true) {
             Intent intent = new Intent(this, StartActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } else {
             if(cameraBol == false) {
                 textCam.setError(getText(R.string.configure_camera));
-            }
-
-            if (dispositivoBool == false) {
-                textDisp.setError(getText(R.string.configure_device));
             }
 
             if (bluetoothBol == false) {

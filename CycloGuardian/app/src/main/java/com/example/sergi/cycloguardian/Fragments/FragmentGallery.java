@@ -100,6 +100,8 @@ public class FragmentGallery extends Fragment {
                     .load(photo.getUrl())
                     .into(imageView);
 
+        //Picasso.with(getContext()).load(Photo.getPhotoFile(photo.getNamePhoto())).into(imageView);
+
 
     }
 

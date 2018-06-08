@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 
 import com.evernote.android.job.Job;
@@ -49,11 +50,13 @@ public class SyncJobIncidence extends Job {
     public static final String TAG = "job_sync_tag";
     AppDataBase dataBase;
     RestInterface restInterface;
-    Boolean successSignIncidence = false;
+    Boolean successSignIncidence = true;
 
     @NonNull
     @Override
     protected Result onRunJob(@NonNull Params params) {
+
+        Log.i("JOB INCIDENCE", "Realizando trabajo");
 
         dataBase = AppDataBase.getAppDataBase(getContext());
         PhotoEntity photoEntity;
@@ -71,7 +74,6 @@ public class SyncJobIncidence extends Job {
             e.printStackTrace();
         }
 
-        if (haveNetworkConnection()) {
             //Obtain all the incidences from the DB
             List<IncidenceEntity> incidenceEntityList = dataBase.incidenceDao().getAll();
             for (int i = 0; i < incidenceEntityList.size(); i++) {
@@ -97,7 +99,7 @@ public class SyncJobIncidence extends Job {
 
                     //Obtain the token of the user
                     List<UserEntity> userEntityList = dataBase.userDao().getAll();
-                    RequestBody token = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(userEntityList.get(0)));
+                    RequestBody token = RequestBody.create(MediaType.parse("text"), String.valueOf(userEntityList.get(0)));
 
                     //Call retrofit service
                     Call<UploadPhotoResponse> uploadPhotoResponseCall = restInterface.uploadPhoto(body, name, uuidIncidencia,
@@ -110,14 +112,19 @@ public class SyncJobIncidence extends Job {
                             String rval = uploadPhotoResponse.getRval();
                             String upload = uploadPhotoResponse.getUpload();
 
-                            if (upload.equals("success")) {
-                                successSignIncidence = true;
+                            Log.i("JOB INCIDENCE", "En trabajo" + upload + rval);
+
+                            if (upload.equals("fail")) {  //Comprobar el tipo de error
+                                if (!rval.equals("existing_incidence")) {
+                                    successSignIncidence = false;
+                                }
                             }
 
                         }
 
                         @Override
                         public void onFailure(Call<UploadPhotoResponse> call, Throwable t) {
+                            successSignIncidence = false;
                             call.cancel();
                             t.printStackTrace();
                         }
@@ -131,7 +138,7 @@ public class SyncJobIncidence extends Job {
 
             }
 
-        }
+
 
         if (successSignIncidence)
             return Result.SUCCESS;
@@ -143,6 +150,18 @@ public class SyncJobIncidence extends Job {
     @Override
     protected void onReschedule(int newJobId) {
         // the rescheduled job has a new ID
+        Log.i("JOB INCIDENCE", "No se ha realizado el trabajo");
+    }
+
+    public static void scheduleJob() {
+       Log.i("JOB INCIDENCE", "Lanzando trabajo");
+        new JobRequest.Builder(SyncJobIncidence.TAG)
+                .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                .setBackoffCriteria(1000L, JobRequest.BackoffPolicy.EXPONENTIAL)
+                .setExecutionWindow(30_000L, 40_000L)
+                .setUpdateCurrent(true)
+                .build()
+                .schedule();
     }
 
     private boolean haveNetworkConnection() {

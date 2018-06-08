@@ -9,22 +9,11 @@
     tools:context="com.example.sergi.cycloguardian.Activities.MainActivity">
 
     <ImageButton
-        android:id="@+id/imageButtonDevice"
-        android:layout_width="46dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="302dp"
-        android:onClick="linkDevice"
-        fancy:layout_constraintStart_toStartOf="parent"
-        fancy:layout_constraintTop_toBottomOf="@+id/textView3"
-        fancy:srcCompat="@mipmap/ic_settings" />
-
-    <ImageButton
         android:id="@+id/imageButtonCamera"
         android:layout_width="46dp"
         android:layout_height="45dp"
         android:layout_marginStart="22dp"
-        android:layout_marginTop="232dp"
+        android:layout_marginTop="292dp"
         android:onClick="linkCamera"
         fancy:layout_constraintStart_toStartOf="parent"
         fancy:layout_constraintTop_toBottomOf="@+id/textView3"
@@ -35,7 +24,7 @@
         android:layout_width="46dp"
         android:layout_height="45dp"
         android:layout_marginStart="22dp"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="204dp"
         android:onClick="configureBluetooth"
         fancy:layout_constraintStart_toStartOf="parent"
         fancy:layout_constraintTop_toBottomOf="@+id/textView3"
@@ -46,7 +35,7 @@
         android:layout_width="46dp"
         android:layout_height="45dp"
         android:layout_marginStart="22dp"
-        android:layout_marginTop="94dp"
+        android:layout_marginTop="114dp"
         android:onClick="configureGPS"
         fancy:layout_constraintStart_toStartOf="parent"
         fancy:layout_constraintTop_toBottomOf="@+id/textView3"
@@ -61,22 +50,13 @@
         android:elevation="4dp"
         tools:ignore="UnusedAttribute" />
 
-    <ImageView
-        android:id="@+id/imageViewDispositivo"
-        android:layout_width="23dp"
-        android:layout_height="18dp"
-        android:layout_marginEnd="95dp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewCamera"
-        app:srcCompat="@android:color/holo_red_dark" />
 
     <ImageView
         android:id="@+id/imageViewCamera"
         android:layout_width="23dp"
         android:layout_height="18dp"
         android:layout_marginEnd="95dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="70dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewBluetooth"
         app:srcCompat="@android:color/holo_red_dark" />
@@ -86,7 +66,7 @@
         android:layout_width="23dp"
         android:layout_height="18dp"
         android:layout_marginEnd="95dp"
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="69dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewGPS"
         app:srcCompat="@android:color/holo_red_dark" />
@@ -96,33 +76,33 @@
         android:layout_width="23dp"
         android:layout_height="18dp"
         android:layout_marginEnd="95dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="68dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageViewWifi"
         app:srcCompat="@android:color/holo_red_dark" />
 
-        <mehdi.sakout.fancybuttons.FancyButton
-            android:id="@+id/btn_spotify"
-            android:layout_width="229dp"
-            android:layout_height="63dp"
-            android:layout_marginStart="60dp"
-            android:layout_marginTop="51dp"
-            android:onClick="startService"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewDevice"
-            fancy:fb_borderColor="#FFFFFF"
-            fancy:fb_borderWidth="1dp"
-            fancy:fb_defaultColor="#7ab800"
-            fancy:fb_focusColor="#9bd823"
-            fancy:fb_fontIconResource="&#xf04b;"
-            fancy:fb_iconPosition="left"
-            fancy:fb_radius="30dp"
-            fancy:fb_text=" START MONITORING"
-            fancy:fb_textColor="#FFFFFF" />
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/btn_spotify"
+        android:layout_width="229dp"
+        android:layout_height="63dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="78dp"
+        android:onClick="startService"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        fancy:fb_borderColor="#FFFFFF"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="#7ab800"
+        fancy:fb_focusColor="#9bd823"
+        fancy:fb_fontIconResource="&#xf04b;"
+        fancy:fb_iconPosition="left"
+        fancy:fb_radius="30dp"
+        fancy:fb_text=" START MONITORING"
+        fancy:fb_textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/textViewWifi"
@@ -178,7 +158,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="19dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="60dp"
         android:text="GPS"
         android:textSize="10pt"
         app:layout_constraintStart_toEndOf="@+id/imageButtonGPS"
@@ -189,7 +169,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="19dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="60dp"
         android:text="Bluetooh"
         android:textSize="10pt"
         app:layout_constraintStart_toEndOf="@+id/imageButtonBluetooth"
@@ -200,22 +180,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="19dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="60dp"
         android:text="@string/camera_name"
         android:textSize="10pt"
         app:layout_constraintStart_toEndOf="@+id/imageButtonCamera"
         app:layout_constraintTop_toBottomOf="@+id/textViewBluetooht" />
 
-    <TextView
-        android:id="@+id/textViewDevice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="44dp"
-        android:text="@string/device"
-        android:textSize="10pt"
-        app:layout_constraintStart_toEndOf="@+id/imageButtonDevice"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCamera" />
+
 
     <ImageButton
         android:id="@+id/imageButtonWifi"

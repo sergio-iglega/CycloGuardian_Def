@@ -33,14 +33,14 @@ public class IntroActivity extends MaterialIntroActivity{
                 });
 
 
-        addSlide(new SlideFragmentBuilder()
+       /* addSlide(new SlideFragmentBuilder()
                 .title((String) getText(R.string.title_slide_1))
                 .description((String) getText(R.string.description_slide_1))
                 .image(R.drawable.bicycle)
                 .backgroundColor(R.color.color_material_slide1)
                 .build());
 
-      /*  addSlide(new SlideFragmentBuilder()
+        addSlide(new SlideFragmentBuilder()
                 .title((String) getText(R.string.title_slide_2))
                 .description((String) getText(R.string.description_slide_2))
                 .image(R.drawable.useradd)
@@ -52,7 +52,7 @@ public class IntroActivity extends MaterialIntroActivity{
                 .description((String) getText(R.string.description_slide3))
                 .image(R.drawable.settings)
                 .backgroundColor(R.color.color_slide3)
-                .build());
+                .build());*/
 
         addSlide(new SlideFragmentBuilder()
                         .backgroundColor(R.color.third_slide_background)
@@ -67,7 +67,7 @@ public class IntroActivity extends MaterialIntroActivity{
                     public void onClick(View v) {
                         showMessage((String) getText(R.string.permisions_granted));
                     }
-                }, (String) getText(R.string.next)));*/
+                }, (String) getText(R.string.next)));
 
     }
 

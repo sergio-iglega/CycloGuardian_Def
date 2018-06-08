@@ -26,6 +26,7 @@ import android.support.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.evernote.android.job.JobCreator;
 import com.example.sergi.cycloguardian.Activities.StartActivity;
 import com.example.sergi.cycloguardian.Database.AppDataBase;
 import com.example.sergi.cycloguardian.Database.IncidenceEntity;
@@ -38,6 +39,8 @@ import com.example.sergi.cycloguardian.Events.DisconnectBLEEvent;
 import com.example.sergi.cycloguardian.Events.SensorEvent;
 import com.example.sergi.cycloguardian.Events.ThersholdEvent;
 import com.example.sergi.cycloguardian.Files.Photo;
+import com.example.sergi.cycloguardian.Job.SyncJobIncidence;
+import com.example.sergi.cycloguardian.Job.SyncJobSesion;
 import com.example.sergi.cycloguardian.Messages.IncomingCameraMessage;
 import com.example.sergi.cycloguardian.Messages.OutcomingCameraMessagePhoto;
 import com.example.sergi.cycloguardian.Messages.OutcomingCameraMessageRequest;
@@ -241,12 +244,8 @@ public class MainService extends Service {
         // We listen for changes in the state of the device
         bleDevice.observeConnectionStateChanges()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<RxBleConnection.RxBleConnectionState>() {
-                    @Override
-                    public void accept(RxBleConnection.RxBleConnectionState rxBleConnectionState) throws Exception {
-                        currentState = rxBleConnectionState;
-                    }
-                });
+                .subscribe(rxBleConnectionState -> currentState = rxBleConnectionState,
+                        throwable -> Log.d("MainService",throwable.getMessage()));
 
         connectionDisposable = bleDevice.establishConnection(true)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -263,9 +262,7 @@ public class MainService extends Service {
                         public void accept(byte[] bytes) throws Exception {
                             String msg = new String(bytes, "UTF-8");
                                     Log.d("MainService", msg);
-                            //TODO register event dont run
-                            //EventBus.getDefault().post(new BluetoothMessage(msg));
-                            onBluetoothMessage(new BluetoothMessage(msg));
+                            EventBus.getDefault().post(new BluetoothMessage(msg));
                         }
                     }, new Consumer<Throwable>() {
                         @Override
@@ -284,13 +281,15 @@ public class MainService extends Service {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
-    private void disconnect(DisconnectBLEEvent disconnectBLEEvent){
-        connectionDisposable = null;
+    public void disconnect(DisconnectBLEEvent disconnectBLEEvent){
+        Log.i("BLE", "disconnecting");
+        connectionDisposable.dispose();
+        //connectionDisposable = null;
         dispose();
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    private void onBluetoothMessage(BluetoothMessage bluetoothMessage){
+    public void onBluetoothMessage(BluetoothMessage bluetoothMessage){
 
         if (bluetoothMessage.getSensor1() != 0 && bluetoothMessage.getSensor2() != 0) {
             //Add to the queue
@@ -380,7 +379,6 @@ public class MainService extends Service {
     @Override
     public void onDestroy() {
         Log.i(TAG, "Service stopped");
-        disconnect(new DisconnectBLEEvent());
         mServiceHandler.removeCallbacksAndMessages(null);
         EventBus.getDefault().unregister(this);
     }
@@ -802,6 +800,9 @@ public class MainService extends Service {
                     AppDataBase myDB = AppDataBase.getAppDataBase(getBaseContext());
                     saveSessionToDataBase(myDB, myApplication.mySession);
                     saveIncidenceToDataBase(myDB, incidence);
+
+                    //JOb
+                    SyncJobIncidence.scheduleJob();
 
                 } else {
                     Log.i("AsyncTask", "onPostExecute: Something ocurred.");

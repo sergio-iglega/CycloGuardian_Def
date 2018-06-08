@@ -15,7 +15,7 @@
     </string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_begin">BeginActivity</string>
-    <string name="title_home">Home</string>
+    <string name="title_home">CycloGuardian</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
@@ -96,6 +96,7 @@
     <string name="next">Next</string>
     <string name="title_slide_4">Permissions</string>
     <string name="description_slide_4">We need you to allow us to access the following services</string>
+    <string name="move_map">Move map</string>
 
 
 </resources>

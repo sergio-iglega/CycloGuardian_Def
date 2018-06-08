@@ -34,7 +34,7 @@ public class SyncJobSesion extends Job {
     public static final String TAG = "job_sync_session_tag";
     AppDataBase dataBase;
     RestInterface restInterface;
-    Boolean successSignSesion = false;
+    Boolean successSignSesion = true;
 
     @NonNull
     @Override
@@ -57,7 +57,6 @@ public class SyncJobSesion extends Job {
             e.printStackTrace();
         }
 
-        if (haveNetworkConnection()) {
             //Obtain sessions from database
             List<SessionEntity> sessionEntityList = dataBase.sessionDao().getAll();
             for (int i=0; i<sessionEntityList.size(); i++) {
@@ -80,13 +79,15 @@ public class SyncJobSesion extends Job {
 
                         Log.i("JOB SESION", "En trabajo" + upload);
 
-                        if (upload.equals("success")) {
-                            successSignSesion = true;
+                        if (upload.equals("fail")) {  //Comprobar el tipo de fallo
+                            if (!rval.equals("existing_session"))
+                                successSignSesion = false;
                         }
                     }
 
                     @Override
                     public void onFailure(retrofit2.Call<ServerDataResponse> call, Throwable t) {
+                        successSignSesion = false;
                         call.cancel();
                         t.printStackTrace();
                     }
@@ -96,12 +97,12 @@ public class SyncJobSesion extends Job {
                     dataBase.sessionDao().deleteSession(sessionEntityList.get(i));
 
             }
-        }
 
         if (successSignSesion)
             return Result.SUCCESS;
-        else
+        else {
             return Result.RESCHEDULE;
+        }
     }
 
     @Override
@@ -113,7 +114,12 @@ public class SyncJobSesion extends Job {
     public static void scheduleJob() {
         Log.i("JOB SESION", "Lanzando trabajo");
         new JobRequest.Builder(SyncJobSesion.TAG)
-                .startNow();
+                .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                .setBackoffCriteria(1000L, JobRequest.BackoffPolicy.EXPONENTIAL)
+                .setExecutionWindow(30_000L, 40_000L)
+                .setUpdateCurrent(true)
+                .build()
+                .schedule();
     }
 
     private boolean haveNetworkConnection() {

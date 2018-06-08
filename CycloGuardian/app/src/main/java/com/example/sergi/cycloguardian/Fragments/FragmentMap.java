@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.example.sergi.cycloguardian.Events.LocationEvent;
@@ -45,6 +47,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback{
     ArrayList<LatLng> myLocations = null;
     MyApplication myApplication;
     int posIncidence;
+    CheckBox checkBoxMap;
 
     public FragmentMap() {
         // Required empty public constructor
@@ -64,6 +67,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback{
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_map, container, false);
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        checkBoxMap = (CheckBox) mView.findViewById(R.id.checkBoxMap);
         if(mapFragment == null) {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
@@ -74,6 +78,19 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback{
 
         MapsInitializer.initialize(getContext());
         mapFragment.getMapAsync(this);
+
+        checkBoxMap.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    mGoogleMap.getUiSettings().setScrollGesturesEnabled(true);
+                    mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
+                } else {
+                    mGoogleMap.getUiSettings().setScrollGesturesEnabled(false);
+                    mGoogleMap.getUiSettings().setZoomControlsEnabled(false);
+                }
+            }
+        });
 
         return mView;
     }
@@ -115,8 +132,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback{
 
         setupMapIfNeeded(googleMap);
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.getUiSettings().setScrollGesturesEnabled(false);
-        googleMap.getUiSettings().setZoomControlsEnabled(false);
 
         if (myApplication.mySession.getIncidenceArryList().isEmpty()) {
             CameraPosition cameraPosition = CameraPosition.builder().target(new LatLng(40.968725, -5.663223))
