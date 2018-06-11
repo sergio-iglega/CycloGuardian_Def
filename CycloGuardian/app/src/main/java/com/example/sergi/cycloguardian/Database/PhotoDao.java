@@ -5,6 +5,7 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.example.sergi.cycloguardian.Files.Photo;
 
@@ -33,4 +34,7 @@ public interface PhotoDao {
 
     @Query("SELECT * FROM photos WHERE uuidIncidence LIKE :uuidIncidencia")
     PhotoEntity selectPhotoOfIncidence(String uuidIncidencia);
+
+    @Update
+    void updatePhoto(PhotoEntity photoEntity);
 }

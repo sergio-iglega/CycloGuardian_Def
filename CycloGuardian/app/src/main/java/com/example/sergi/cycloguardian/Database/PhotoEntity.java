@@ -17,6 +17,9 @@ public class PhotoEntity {
     String namePhoto;
     String rutaPhoto;
     String rutaPhotoServer;
+    Boolean syncronized;
+
+
 
     public String getRutaPhotoServer() {
         return rutaPhotoServer;
@@ -25,6 +28,15 @@ public class PhotoEntity {
     public void setRutaPhotoServer(String rutaPhotoServer) {
         this.rutaPhotoServer = rutaPhotoServer;
     }
+
+    public Boolean getSyncronized() {
+        return syncronized;
+    }
+
+    public void setSyncronized(Boolean syncronized) {
+        this.syncronized = syncronized;
+    }
+
 
     public String getUuidIncidence() {
         return uuidIncidence;

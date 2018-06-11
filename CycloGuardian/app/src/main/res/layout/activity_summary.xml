@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     android:background="@color/background_activity"
     tools:context="com.example.sergi.cycloguardian.Activities.SummaryActivity">
 
@@ -76,10 +77,33 @@
         android:layout_width="117dp"
         android:layout_height="107dp"
         android:layout_marginStart="134dp"
-        android:layout_marginTop="53dp"
+        android:layout_marginTop="13dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewAverage"
         app:srcCompat="@color/about_libraries_card" />
+
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/btn_spotify"
+        android:layout_width="229dp"
+        android:layout_height="63dp"
+        android:onClick="goToHomeButton"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="78dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        fancy:fb_borderColor="#FFFFFF"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="#7ab800"
+        fancy:fb_focusColor="#9bd823"
+        fancy:fb_fontIconResource="@string/icon_behance"
+        fancy:fb_iconPosition="left"
+        fancy:fb_radius="30dp"
+        fancy:fb_text=" GO HOME"
+        fancy:fb_textColor="#FFFFFF" />
 
 
 </android.support.constraint.ConstraintLayout>

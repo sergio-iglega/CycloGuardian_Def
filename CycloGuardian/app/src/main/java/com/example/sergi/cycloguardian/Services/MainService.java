@@ -88,6 +88,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 import io.reactivex.Observable;
@@ -179,6 +181,8 @@ public class MainService extends Service {
     //Object Incidence
     Incidence incidence;
 
+    Boolean hacerfoto = true;
+
 
     public static String HM_RX_TX = "0000ffe1-0000-1000-8000-00805f9b34fb";
     private RxBleDevice bleDevice;
@@ -261,7 +265,7 @@ public class MainService extends Service {
                         @Override
                         public void accept(byte[] bytes) throws Exception {
                             String msg = new String(bytes, "UTF-8");
-                                    Log.d("MainService", msg);
+                                    //Log.d("MainService", msg);
                             EventBus.getDefault().post(new BluetoothMessage(msg));
                         }
                     }, new Consumer<Throwable>() {
@@ -532,10 +536,25 @@ public class MainService extends Service {
     }
 
     private void checkQueue(float dateSensor1, float dateSensor2) {
+        long delayFoto = 2000;
         if(dateSensor1 <= myApplication.mySession.getLimitOvertaking() || dateSensor2 <= myApplication.mySession.getLimitOvertaking()) {
             incidence = new Incidence();
             incidence.setDistanceSensor(dateSensor1+dateSensor2/2);
-            hacerFoto();
+            Timer timer = new Timer();
+
+            Log.i("TIMER", String.valueOf(hacerfoto));
+            if (hacerfoto) {
+                hacerfoto = false;
+                hacerFoto();
+
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        hacerfoto = true;
+                    }
+                }, delayFoto);
+
+            }
         }
     }
 

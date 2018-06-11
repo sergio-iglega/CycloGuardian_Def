@@ -26,7 +26,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sergi.cycloguardian.Database.AppDataBase;
+import com.example.sergi.cycloguardian.Database.PhotoEntity;
 import com.example.sergi.cycloguardian.Database.UserEntity;
+import com.example.sergi.cycloguardian.Files.Photo;
 import com.example.sergi.cycloguardian.Intro.IntroActivity;
 import com.example.sergi.cycloguardian.MyApplication;
 import com.example.sergi.cycloguardian.R;
@@ -273,8 +275,6 @@ public class MainActivity extends AppCompatActivity {
         File myDir = new File(root + "/CycloGuardian");
 
 
-        if(myDir.exists())
-            myDir.delete();
     }
 
 
@@ -466,6 +466,8 @@ public class MainActivity extends AppCompatActivity {
     public void startService(View view) {
         //Iniciamos otra actividad
         if (cameraBol == true && bluetoothBol == true && gpsBol == true && wifiBol == true) {
+            //Remove the photos of other sessions
+            removePhotosLastSession();
             Intent intent = new Intent(this, StartActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -493,6 +495,22 @@ public class MainActivity extends AppCompatActivity {
 
     private void removeRegisterToDataBase(AppDataBase appDataBase, UserEntity userEntity) {
         appDataBase.userDao().deleteUser(userEntity);
+
+    }
+
+    private void removePhotosLastSession() {
+        File photoFile;
+        AppDataBase myDb = AppDataBase.getAppDataBase(this.getApplicationContext());
+        List<PhotoEntity> photoEntityList = myDb.photoDao().getAll();
+        for (int i = 0; i < photoEntityList.size(); i++) {
+            if (photoEntityList.get(i).getSyncronized() == true) {
+                photoFile = Photo.getPhotoFile(photoEntityList.get(i).getNamePhoto());
+                if (photoFile.exists())
+                    photoFile.delete();
+
+                myDb.photoDao().deletePhoto(photoEntityList.get(i));
+            }
+        }
 
     }
 

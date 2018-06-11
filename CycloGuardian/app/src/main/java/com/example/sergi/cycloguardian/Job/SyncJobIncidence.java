@@ -99,7 +99,7 @@ public class SyncJobIncidence extends Job {
 
                     //Obtain the token of the user
                     List<UserEntity> userEntityList = dataBase.userDao().getAll();
-                    RequestBody token = RequestBody.create(MediaType.parse("text"), String.valueOf(userEntityList.get(0)));
+                    RequestBody token = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(userEntityList.get(0).getToken()));
 
                     //Call retrofit service
                     Call<UploadPhotoResponse> uploadPhotoResponseCall = restInterface.uploadPhoto(body, name, uuidIncidencia,
@@ -131,10 +131,14 @@ public class SyncJobIncidence extends Job {
                     });
                 }
 
-                if(successSignIncidence)
+                if(successSignIncidence) {
                     //Remove the incidence and the photo from the DB
                     dataBase.incidenceDao().deleteIncidence(incidenceEntityList.get(i));
-                    dataBase.photoDao().deletePhoto(photoEntity);
+                    photoEntity.setSyncronized(true);
+                    dataBase.photoDao().updatePhoto(photoEntity);
+                } else {
+                    photoEntity.setSyncronized(false);
+                }
 
             }
 

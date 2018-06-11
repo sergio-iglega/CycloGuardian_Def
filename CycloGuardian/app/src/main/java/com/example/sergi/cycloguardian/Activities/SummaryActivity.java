@@ -1,20 +1,27 @@
 package com.example.sergi.cycloguardian.Activities;
 
+import android.arch.persistence.room.Database;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.sergi.cycloguardian.Database.AppDataBase;
+import com.example.sergi.cycloguardian.Database.PhotoEntity;
 import com.example.sergi.cycloguardian.Database.SessionEntity;
+import com.example.sergi.cycloguardian.Files.Photo;
 import com.example.sergi.cycloguardian.MyApplication;
 import com.example.sergi.cycloguardian.R;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Queue;
 
 import static com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon.gmd_done;
@@ -27,6 +34,13 @@ public class SummaryActivity extends AppCompatActivity {
     Queue<Float> summaryQueue2;
     MyApplication myApplication;
     ImageView imageView;
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        goHome();
+        this.finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +118,36 @@ public class SummaryActivity extends AppCompatActivity {
             Glide.with(this).load(R.drawable.fail).into(imageView);
         }
 
+
+    }
+
+    public void goToHomeButton(View view) {
+        goHome();
+        this.finish();
+    }
+
+    public void goHome() {
+        //TODO delete all photos from database
+        removePhotosSession();
+        //Change Activity
+        Intent intentMain = new Intent(SummaryActivity.this, MainActivity.class);
+        intentMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intentMain);
+    }
+
+    private void removePhotosSession() {
+        File photoFile;
+        AppDataBase myDb = AppDataBase.getAppDataBase(this.getApplicationContext());
+        List<PhotoEntity> photoEntityList = myDb.photoDao().getAll();
+        for (int i = 0; i < photoEntityList.size(); i++) {
+            if (photoEntityList.get(i).getSyncronized() == true) {
+                photoFile = Photo.getPhotoFile(photoEntityList.get(i).getNamePhoto());
+                if (photoFile.exists())
+                    photoFile.delete();
+
+                myDb.photoDao().deletePhoto(photoEntityList.get(i));
+            }
+        }
 
     }
 

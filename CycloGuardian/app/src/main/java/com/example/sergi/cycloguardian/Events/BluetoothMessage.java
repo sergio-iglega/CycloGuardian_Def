@@ -21,7 +21,7 @@ public class BluetoothMessage {
             setSensor2(((float) Integer.parseInt(sensors[1])) / 100);
         }
 
-        Log.i("MSG", String.valueOf(getSensor1()));
+        //Log.i("MSG", String.valueOf(getSensor1()));
     }
 
     public float getSensor1() {
