@@ -96,4 +96,7 @@ dependencies {
     compile 'com.heinrichreimersoftware:material-intro:1.6.2'
     compile 'agency.tango.android:material-intro-screen:0.0.5'
 
+    //About lib
+    compile 'com.github.daniel-stoneuk:material-about-library:2.3.0'
+
 }

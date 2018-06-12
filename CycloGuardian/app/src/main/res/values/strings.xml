@@ -97,7 +97,7 @@
     <string name="title_slide_4">Permissions</string>
     <string name="description_slide_4">We need you to allow us to access the following services</string>
     <string name="move_map">Move map</string>
-    <string name="icon_behance">&#xf1b4;</string>
+    <string name="icon_config">&#xf085;</string>
 
 
 </resources>

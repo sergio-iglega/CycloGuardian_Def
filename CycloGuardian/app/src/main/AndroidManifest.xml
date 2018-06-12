@@ -63,9 +63,12 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".Activities.SummaryActivity" />
-        <activity android:name=".Activities.SettignsActivity" />
         <activity android:name=".Activities.AboutActivity" />
-        <activity android:name=".Intro.IntroActivity" android:theme="@style/Theme.Intro"></activity>
+        <activity
+            android:name=".Intro.IntroActivity"
+            android:theme="@style/Theme.Intro" />
+        <activity android:name=".Activities.InfoActivity"
+            android:theme="@style/AppTheme.MaterialAboutActivity" />
     </application>
 
 </manifest>

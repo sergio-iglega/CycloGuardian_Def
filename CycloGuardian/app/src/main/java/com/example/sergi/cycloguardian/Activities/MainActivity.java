@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.danielstone.materialaboutlibrary.MaterialAboutActivity;
 import com.example.sergi.cycloguardian.Database.AppDataBase;
 import com.example.sergi.cycloguardian.Database.PhotoEntity;
 import com.example.sergi.cycloguardian.Database.UserEntity;
@@ -159,6 +160,8 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             if (drawerItem.getIdentifier() == 4) {
+                                Intent intent = new Intent(MainActivity.this, InfoActivity.class);
+                                startActivity(intent);
 
                             }
 
