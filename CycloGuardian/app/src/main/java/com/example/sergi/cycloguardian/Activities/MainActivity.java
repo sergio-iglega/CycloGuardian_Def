@@ -156,12 +156,14 @@ public class MainActivity extends AppCompatActivity {
                             if (drawerItem.getIdentifier() == 3) {
                                 Intent intent = new Intent(MainActivity.this, IntroActivity.class);
                                 startActivity(intent);
+                                result.setSelection(1);
 
                             }
 
                             if (drawerItem.getIdentifier() == 4) {
                                 Intent intent = new Intent(MainActivity.this, InfoActivity.class);
                                 startActivity(intent);
+                                result.setSelection(1);
 
                             }
 
@@ -182,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
                             if (drawerItem.getIdentifier() == 6) {
                                 Intent intent = new Intent(MainActivity.this, AboutActivity.class);
                                 startActivity(intent);
+                                result.setSelection(1);
 
                             }
                         }
