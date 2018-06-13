@@ -98,6 +98,13 @@
     <string name="description_slide_4">We need you to allow us to access the following services</string>
     <string name="move_map">Move map</string>
     <string name="icon_config">&#xf085;</string>
+    <string name="title_about">CycloGuardian - "Metro y medio es vida"</string>
+    <string name="desc_about">© 2018 Sergio Iglesias García</string>
+    <string name="author">Author</string>
+    <string name="country">Spain</string>
+    <string name="author_name">Sergio Iglesias García</string>
+    <string name="github">Fork on Github</string>
+    <string name="user_github_url">https://github.com/sergio-iglega</string>
 
 
 </resources>
