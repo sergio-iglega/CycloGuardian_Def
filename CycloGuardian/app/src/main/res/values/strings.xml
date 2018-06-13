@@ -105,6 +105,8 @@
     <string name="author_name">Sergio Iglesias García</string>
     <string name="github">Fork on Github</string>
     <string name="user_github_url">https://github.com/sergio-iglega</string>
+    <string name="contact">Contact Information</string>
+    <string name="visit_web">Visit websit</string>
 
 
 </resources>

@@ -14,7 +14,7 @@ public class AboutActivity extends LibsActivity {
     public void onCreate(Bundle savedInstanceState) {
         LibsBuilder builder = new LibsBuilder()
                 .withActivityTitle((String) getText(R.string.license))
-                .withActivityStyle(Libs.ActivityStyle.LIGHT)
+                .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                 .withAutoDetect(true)
                 .withVersionShown(true)
                 .withLicenseShown(true);

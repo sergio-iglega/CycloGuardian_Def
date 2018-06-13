@@ -71,7 +71,44 @@ public class InfoActivity extends MaterialAboutActivity {
                 .build());
 
 
-        return new MaterialAboutList(appCardBuilder.build(),authorCardBuilder.build());
+        MaterialAboutCard.Builder convenienceCardBuilder = new MaterialAboutCard.Builder();
+        convenienceCardBuilder.title(R.string.contact);
+
+        convenienceCardBuilder.addItem(ConvenienceBuilder.createWebsiteActionItem(context,
+                new IconicsDrawable(context)
+                        .icon(GoogleMaterial.Icon.gmd_web)
+                        .sizeDp(18),
+                "Visit Website",
+                true,
+                Uri.parse("http://www.cycloguardian.com")));
+
+        convenienceCardBuilder.addItem(ConvenienceBuilder.createRateActionItem(context,
+                new IconicsDrawable(context)
+                        .icon(GoogleMaterial.Icon.gmd_star)
+                        .sizeDp(18),
+                "Rate this app",
+                null
+        ));
+
+        convenienceCardBuilder.addItem(ConvenienceBuilder.createEmailItem(context,
+                new IconicsDrawable(context)
+                        .icon(GoogleMaterial.Icon.gmd_email)
+                        .sizeDp(18),
+                "Send an email",
+                true,
+                "cycloguardian@gmail.com",
+                "Question concerning MaterialAboutLibrary"));
+
+        convenienceCardBuilder.addItem(ConvenienceBuilder.createPhoneItem(context,
+                new IconicsDrawable(context)
+                        .icon(GoogleMaterial.Icon.gmd_phone)
+                        .sizeDp(18),
+                "Call me",
+                true,
+                "+34 690 87 38 69"));
+
+
+        return new MaterialAboutList(appCardBuilder.build(),authorCardBuilder.build(), convenienceCardBuilder.build());
     }
 
     @Nullable
