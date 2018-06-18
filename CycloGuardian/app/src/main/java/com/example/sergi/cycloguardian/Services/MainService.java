@@ -233,9 +233,6 @@ public class MainService extends Service {
             mNotificationManager.createNotificationChannel(mChannel);
         }
 
-
-        connect(new ConnectBLEEvent("7C:01:0A:5F:40:45"));
-
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
@@ -251,7 +248,7 @@ public class MainService extends Service {
                 .subscribe(rxBleConnectionState -> currentState = rxBleConnectionState,
                         throwable -> Log.d("MainService",throwable.getMessage()));
 
-        connectionDisposable = bleDevice.establishConnection(true)
+        connectionDisposable = bleDevice.establishConnection(false)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally(this::dispose)// establish the connection
                 .flatMap(new Function<RxBleConnection, ObservableSource<Observable<byte[]>>>() {
@@ -319,6 +316,9 @@ public class MainService extends Service {
         Log.i(TAG, "Service started");
         boolean startedFromNotification = intent.getBooleanExtra(EXTRA_STARTED_FROM_NOTIFICATION,
                 false);
+
+        Log.i(TAG, "Calling to connect...");
+        connect(new ConnectBLEEvent("7C:01:0A:5F:40:45"));
 
         // We got here because the user decided to remove location updates from the notification.
         if (startedFromNotification) {

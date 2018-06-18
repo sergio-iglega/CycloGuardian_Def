@@ -11,16 +11,21 @@
         android:layout_width="383dp"
         android:layout_height="434dp"
         android:layout_marginTop="48dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:context="com.example.sergi.cycloguardian.Fragments.FragmentMap">
 
-        <CheckBox
-            android:id="@+id/checkBoxMap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="CheckBox"
-            tools:layout_editor_absoluteX="29dp"
-            tools:layout_editor_absoluteY="98dp" />
     </FrameLayout>
+
+    <CheckBox
+        android:id="@+id/checkBoxMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/move_map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/map" />
+
 </android.support.constraint.ConstraintLayout>
