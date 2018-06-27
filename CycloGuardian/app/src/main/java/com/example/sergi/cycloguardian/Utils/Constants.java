@@ -7,7 +7,7 @@ package com.example.sergi.cycloguardian.Utils;
 public class Constants {
     public static final String IP_CAMARA = "192.168.42.1";
     public static final String DIRECCION_FILE = "http://192.168.42.1/DCIM/100MEDIA/";
-    public static final String SERVER_URL = "http://16598dea.ngrok.io"; //TODO CHANGE THIS TO NGROK SERVER
+    public static final String SERVER_URL = "http://67022dcd.ngrok.io"; //TODO CHANGE THIS TO NGROK SERVER
     public static final int PUERTO_CAMARA = 7878;
     public static final int MSG_ID_REQUEST = 257;
     public static final int MSG_ID_TAKE_PHOTO = 769;

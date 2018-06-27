@@ -161,6 +161,7 @@ public class SyncJobIncidence extends Job {
        Log.i("JOB INCIDENCE", "Lanzando trabajo");
         new JobRequest.Builder(SyncJobIncidence.TAG)
                 .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                .setRequiredNetworkType(JobRequest.NetworkType.ANY)
                 .setBackoffCriteria(1000L, JobRequest.BackoffPolicy.EXPONENTIAL)
                 .setExecutionWindow(30_000L, 40_000L)
                 .setUpdateCurrent(true)

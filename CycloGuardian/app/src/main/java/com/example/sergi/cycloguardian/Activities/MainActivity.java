@@ -4,6 +4,7 @@ import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.location.LocationManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     UserEntity myUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -267,7 +270,6 @@ public class MainActivity extends AppCompatActivity {
         if (cameraBol == false) {
             imCam.setColorFilter(Color.RED);
         }
-
 
     }
 

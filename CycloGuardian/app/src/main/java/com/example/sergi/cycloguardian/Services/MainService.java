@@ -1,6 +1,7 @@
 package com.example.sergi.cycloguardian.Services;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -13,6 +14,11 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
@@ -75,22 +81,31 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
+
+import javax.net.SocketFactory;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -98,6 +113,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+
+import static android.net.ConnectivityManager.TYPE_MOBILE;
+import static android.net.ConnectivityManager.TYPE_WIFI;
+import static android.os.Build.VERSION.SDK_INT;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 
 /**
  * Created by sergi on 25/03/2018.
@@ -223,7 +244,7 @@ public class MainService extends Service {
         mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         // Android O requires a Notification Channel.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getString(R.string.app_name);
             // Create the channel for the notification
             NotificationChannel mChannel =
@@ -453,7 +474,7 @@ public class MainService extends Service {
                 .setWhen(System.currentTimeMillis());
 
         // Set the Channel ID for Android O.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (SDK_INT >= Build.VERSION_CODES.O) {
             builder.setChannelId(CHANNEL_ID); // Channel ID
         }
 
@@ -535,6 +556,7 @@ public class MainService extends Service {
 
     }
 
+    @SuppressLint("NewApi")
     private void checkQueue(float dateSensor1, float dateSensor2) {
         long delayFoto = 2000;
         if(dateSensor1 <= myApplication.mySession.getLimitOvertaking() || dateSensor2 <= myApplication.mySession.getLimitOvertaking()) {
@@ -622,15 +644,33 @@ public class MainService extends Service {
             String url = null;
             Parser p = new Parser();
             Photo photo = null;
+
+
             try {
 
                 OutcomingCameraMessagePhoto msgPhoto = params[0];
                 OutcomingCameraMessageRequest msg = new OutcomingCameraMessageRequest(Constants.MSG_ID_REQUEST);
 
                 //TODO INICIAR LA CONEXIÓN
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                if (connectivityManager == null) throw new AssertionError();
+
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    for (Network net : connectivityManager.getAllNetworks()) {
+                        NetworkInfo info = connectivityManager.getNetworkInfo(net);
+                        if (info != null && info.getType() == TYPE_WIFI) {
+                            Log.i("NET", info.getExtraInfo());
+                            nsocket = new Socket();
+                            net.bindSocket(nsocket);
+                        }
+                    }
+                }
+
                 Log.i("AsyncTask", "doInBackground: Creating socket");
                 SocketAddress sockaddr = new InetSocketAddress(Constants.IP_CAMARA, Constants.PUERTO_CAMARA);
-                nsocket = new Socket();
+
+
                 try {
                     nsocket.connect(sockaddr, Constants.TIMEOUT_SOCKET); //10 segundos de timeout
                 } catch (IOException e) {
@@ -639,6 +679,7 @@ public class MainService extends Service {
                 if (nsocket.isConnected()) {
                     nis = nsocket.getInputStream();  //Creamos los streams
                     nos = nsocket.getOutputStream();
+
                     Log.i("AsyncTask", "doInBackground: Socket created, streams assigned");
                     Log.i("AsyncTask", "doInBackground: Waiting for inital data...");
                     //TODO OBTENER EL TOKEN
@@ -724,6 +765,7 @@ public class MainService extends Service {
 
             return photo;  //Devolvemos la foto con la url y el nombre al método PostExecute
         }
+
 
         public int readInputStreamWithTimeout(InputStream is, byte[] b, int timeoutMillis)
                 throws IOException {
@@ -820,8 +862,9 @@ public class MainService extends Service {
                     saveSessionToDataBase(myDB, myApplication.mySession);
                     saveIncidenceToDataBase(myDB, incidence);
 
-                    //JOb
+                    //JOb --> First Change the net
                     SyncJobIncidence.scheduleJob();
+
 
                 } else {
                     Log.i("AsyncTask", "onPostExecute: Something ocurred.");
