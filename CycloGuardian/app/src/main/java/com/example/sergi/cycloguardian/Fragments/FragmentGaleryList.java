@@ -6,15 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.sergi.cycloguardian.Adapter.IncidenceAdapter;
 import com.example.sergi.cycloguardian.Events.ThersholdEvent;
-import com.example.sergi.cycloguardian.Files.Photo;
+import com.example.sergi.cycloguardian.Models.Photo;
 import com.example.sergi.cycloguardian.Models.Incidence;
 import com.example.sergi.cycloguardian.MyApplication;
 import com.example.sergi.cycloguardian.R;

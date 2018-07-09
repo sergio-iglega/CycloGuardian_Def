@@ -1,30 +1,23 @@
 package com.example.sergi.cycloguardian.Activities;
 
-import android.arch.persistence.room.Database;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.sergi.cycloguardian.Database.AppDataBase;
 import com.example.sergi.cycloguardian.Database.PhotoEntity;
-import com.example.sergi.cycloguardian.Database.SessionEntity;
-import com.example.sergi.cycloguardian.Files.Photo;
+import com.example.sergi.cycloguardian.Models.Photo;
 import com.example.sergi.cycloguardian.MyApplication;
 import com.example.sergi.cycloguardian.R;
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Queue;
-
-import static com.mikepenz.google_material_typeface_library.GoogleMaterial.Icon.gmd_done;
 
 public class SummaryActivity extends AppCompatActivity {
 

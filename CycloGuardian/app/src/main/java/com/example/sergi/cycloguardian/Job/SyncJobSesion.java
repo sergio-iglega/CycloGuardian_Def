@@ -36,6 +36,12 @@ public class SyncJobSesion extends Job {
     RestInterface restInterface;
     Boolean successSignSesion = true;
 
+    /**
+     * Metodo que se ejecuta cuando se cumplen las condiciones para poder
+     * realizar el trabajo
+     * @param params
+     * @return
+     */
     @NonNull
     @Override
     protected Result onRunJob(@NonNull Params params) {
@@ -105,12 +111,19 @@ public class SyncJobSesion extends Job {
         }
     }
 
+    /**
+     * Método para relanzar un trabajo que no se ha podido completar
+     * @param newJobId
+     */
     @Override
     protected void onReschedule(int newJobId) {
         // the rescheduled job has a new ID
         Log.i("JOB SESION", "El trabajo falló");
     }
 
+    /**
+     * Programa un trabajo para la subida de una incidencia
+     */
     public static void scheduleJob() {
         Log.i("JOB SESION", "Lanzando trabajo");
         new JobRequest.Builder(SyncJobSesion.TAG)
@@ -122,20 +135,4 @@ public class SyncJobSesion extends Job {
                 .schedule();
     }
 
-    private boolean haveNetworkConnection() {
-        boolean haveConnectedWifi = false;
-        boolean haveConnectedMobile = false;
-
-        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-        for (NetworkInfo ni : netInfo) {
-            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-                if (ni.isConnected())
-                    haveConnectedWifi = true;
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (ni.isConnected())
-                    haveConnectedMobile = true;
-        }
-        return haveConnectedWifi || haveConnectedMobile;
-    }
 }

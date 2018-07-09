@@ -7,8 +7,6 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.example.sergi.cycloguardian.Files.Photo;
-
 import java.util.List;
 
 /**

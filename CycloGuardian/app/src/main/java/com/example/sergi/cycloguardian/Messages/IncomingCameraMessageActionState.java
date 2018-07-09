@@ -11,6 +11,12 @@ public class IncomingCameraMessageActionState extends IncomingCameraMessage {
 
     }
 
+    /**
+     * Constructor con argumentos
+     * @param type
+     * @param param
+     * @param msg_id
+     */
     public IncomingCameraMessageActionState(String type, String param, int msg_id) {
         this.msg_id = msg_id;
         this.type = type;

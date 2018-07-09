@@ -1,6 +1,5 @@
 package com.example.sergi.cycloguardian.Services;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.Notification;
@@ -10,15 +9,12 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
@@ -32,21 +28,17 @@ import android.support.annotation.NonNull;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.evernote.android.job.JobCreator;
-import com.example.sergi.cycloguardian.Activities.StartActivity;
 import com.example.sergi.cycloguardian.Database.AppDataBase;
 import com.example.sergi.cycloguardian.Database.IncidenceEntity;
 import com.example.sergi.cycloguardian.Database.PhotoEntity;
 import com.example.sergi.cycloguardian.Database.SessionEntity;
-import com.example.sergi.cycloguardian.Database.UserEntity;
 import com.example.sergi.cycloguardian.Events.BluetoothMessage;
 import com.example.sergi.cycloguardian.Events.ConnectBLEEvent;
 import com.example.sergi.cycloguardian.Events.DisconnectBLEEvent;
 import com.example.sergi.cycloguardian.Events.SensorEvent;
 import com.example.sergi.cycloguardian.Events.ThersholdEvent;
-import com.example.sergi.cycloguardian.Files.Photo;
+import com.example.sergi.cycloguardian.Models.Photo;
 import com.example.sergi.cycloguardian.Job.SyncJobIncidence;
-import com.example.sergi.cycloguardian.Job.SyncJobSesion;
 import com.example.sergi.cycloguardian.Messages.IncomingCameraMessage;
 import com.example.sergi.cycloguardian.Messages.OutcomingCameraMessagePhoto;
 import com.example.sergi.cycloguardian.Messages.OutcomingCameraMessageRequest;
@@ -66,13 +58,10 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.polidea.rxandroidble2.NotificationSetupMode;
 import com.polidea.rxandroidble2.RxBleConnection;
 import com.polidea.rxandroidble2.RxBleDevice;
 
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -81,31 +70,20 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.UnknownHostException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
-
-import javax.net.SocketFactory;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -114,11 +92,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
-import static android.net.ConnectivityManager.TYPE_MOBILE;
 import static android.net.ConnectivityManager.TYPE_WIFI;
 import static android.os.Build.VERSION.SDK_INT;
-import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
 
 /**
  * Created by sergi on 25/03/2018.
@@ -256,6 +231,10 @@ public class MainService extends Service {
 
     }
 
+    /**
+     * Evento para la conexión del Bluetooth
+     * @param connectBLEEvent
+     */
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     public void connect(ConnectBLEEvent connectBLEEvent){
 
@@ -302,6 +281,10 @@ public class MainService extends Service {
 
     }
 
+    /**
+     * Evento de recepción para la desconexión del Bluetooth
+     * @param disconnectBLEEvent
+     */
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     public void disconnect(DisconnectBLEEvent disconnectBLEEvent){
         Log.i("BLE", "disconnecting");
@@ -310,6 +293,11 @@ public class MainService extends Service {
         dispose();
     }
 
+    /**
+     * Evento de recepción cuándo se notifica de la recepción
+     * de un mensaje desde el sensor
+     * @param bluetoothMessage
+     */
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onBluetoothMessage(BluetoothMessage bluetoothMessage){
 
@@ -515,47 +503,6 @@ public class MainService extends Service {
         }
     }
 
-    public void randomDistanceGenerator() {
-        final float minX = 1.0f;  //To calculate the random distance
-        final float maxX = 4.0f;
-        final Random rand = new Random();
-        Log.i("GNERATOR", "Generating ramdon numbers");
-
-       /* SensorEvent sensorEvent = new SensorEvent();
-        EventBus.getDefault().post(sensorEvent);*/
-        //Thread to generate the random numbers
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < 20; i++) {
-                    float finalXS1;
-                    float finalXS2;
-                    finalXS1 = rand.nextFloat() * (maxX - minX) + minX;
-                    finalXS2 = rand.nextFloat() * (maxX - minX) + minX;
-                    //Add to the queue
-                    myApplication.mySession.getSensorDatesQueue().add(finalXS1);
-                    //Notificación de un nuevo evento de datos
-                    SensorEvent sensorEvent = new SensorEvent();
-                    sensorEvent.setSensor1(finalXS1);
-                    sensorEvent.setSensor2(finalXS2);
-                    EventBus.getDefault().post(sensorEvent);
-                    //check the date
-                    checkQueue(finalXS1,finalXS2);
-                    try {
-                        Thread.sleep(4000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-
-
-            }
-        }).start();
-
-
-    }
-
     @SuppressLint("NewApi")
     private void checkQueue(float dateSensor1, float dateSensor2) {
         long delayFoto = 2000;
@@ -619,12 +566,18 @@ public class MainService extends Service {
         return false;
     }
 
+    /**
+     * Método que ejecuta la tarea asíncrona para transmitir el mensaje a la cámara
+     */
     public void hacerFoto() {
         OutcomingCameraMessagePhoto msg = new OutcomingCameraMessagePhoto(Constants.MSG_ID_TAKE_PHOTO); //Constructor del mensaje
         networkTask = new NetworkTask();
         networkTask.execute(msg);
     }
 
+    /**
+     * Tarea asíncrona para el envío y la recepción de mensajes hacía la cámara
+     */
     public class NetworkTask extends AsyncTask<OutcomingCameraMessagePhoto, byte[], Photo> {
         ThersholdEvent thersholdEvent; //Para la creación del evento
         Socket nsocket; //Network Socket
@@ -767,6 +720,14 @@ public class MainService extends Service {
         }
 
 
+        /**
+         * Para la recepción de mensajes con un timeout
+         * @param is
+         * @param b
+         * @param timeoutMillis
+         * @return
+         * @throws IOException
+         */
         public int readInputStreamWithTimeout(InputStream is, byte[] b, int timeoutMillis)
                 throws IOException {
             int bufferOffset = 0;
@@ -877,6 +838,11 @@ public class MainService extends Service {
         }
 
 
+        /**
+         * Método para alamacenar la foto tomada por la cámara en el almacenamiento externo
+         * @param bitmap
+         * @param name
+         */
         private void saveToInternalStorage(Bitmap bitmap, String name){
             //imageView.setImageBitmap(bitmap);
             String root = Environment.getExternalStorageDirectory().toString();
@@ -900,6 +866,11 @@ public class MainService extends Service {
 
         }
 
+        /**
+         * Para almacenar una sesión en la Base de datos
+         * @param appDataBase
+         * @param mySession
+         */
         private void saveSessionToDataBase(AppDataBase appDataBase, Session mySession) {
             SessionEntity oldSession = null;
             oldSession = appDataBase.sessionDao().getSessionByUUID(mySession.getSessionUUID().toString());
@@ -916,6 +887,11 @@ public class MainService extends Service {
             }
         }
 
+        /**
+         * Almacena una incidencia en la base de datos
+         * @param appDataBase
+         * @param myIncidence
+         */
         private void saveIncidenceToDataBase(AppDataBase appDataBase, Incidence myIncidence) {
 
 
@@ -936,6 +912,11 @@ public class MainService extends Service {
 
         }
 
+        /**
+         * Almacena una foto en la base de datos
+         * @param appDataBase
+         * @param myPhoto
+         */
         private void savePhotoToDataBase(AppDataBase appDataBase, Photo myPhoto) {
 
             PhotoEntity photoEntity = new PhotoEntity();

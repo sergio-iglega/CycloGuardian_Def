@@ -1,21 +1,14 @@
 package com.example.sergi.cycloguardian.Adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.sergi.cycloguardian.Files.Photo;
 import com.example.sergi.cycloguardian.Models.Incidence;
-import com.example.sergi.cycloguardian.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 

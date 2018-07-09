@@ -1,8 +1,5 @@
 package com.example.sergi.cycloguardian.Models;
 
-import android.content.Intent;
-
-import com.example.sergi.cycloguardian.Files.Photo;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;

@@ -1,8 +1,6 @@
 package com.example.sergi.cycloguardian.Activities;
 
-import android.arch.persistence.room.Room;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
@@ -14,25 +12,17 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.Chronometer;
 
 import com.example.sergi.cycloguardian.Database.AppDataBase;
-import com.example.sergi.cycloguardian.Database.IncidenceDao;
-import com.example.sergi.cycloguardian.Database.PhotoDao;
-import com.example.sergi.cycloguardian.Database.SessionDao;
 import com.example.sergi.cycloguardian.Database.SessionEntity;
 import com.example.sergi.cycloguardian.Events.DisconnectBLEEvent;
-import com.example.sergi.cycloguardian.Files.Photo;
 import com.example.sergi.cycloguardian.Fragments.FragmentGallery;
 import com.example.sergi.cycloguardian.Fragments.FragmentGaleryList;
 import com.example.sergi.cycloguardian.Fragments.FragmentGraph;
 import com.example.sergi.cycloguardian.Fragments.FragmentMap;
 import com.example.sergi.cycloguardian.Job.SyncJobSesion;
-import com.example.sergi.cycloguardian.Models.Incidence;
 import com.example.sergi.cycloguardian.Models.Session;
 import com.example.sergi.cycloguardian.MyApplication;
 import com.example.sergi.cycloguardian.R;

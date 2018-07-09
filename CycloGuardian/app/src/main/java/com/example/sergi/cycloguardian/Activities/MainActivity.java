@@ -4,34 +4,27 @@ import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.LocationManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.danielstone.materialaboutlibrary.MaterialAboutActivity;
 import com.example.sergi.cycloguardian.Database.AppDataBase;
 import com.example.sergi.cycloguardian.Database.PhotoEntity;
 import com.example.sergi.cycloguardian.Database.UserEntity;
-import com.example.sergi.cycloguardian.Files.Photo;
+import com.example.sergi.cycloguardian.Models.Photo;
 import com.example.sergi.cycloguardian.Intro.IntroActivity;
 import com.example.sergi.cycloguardian.MyApplication;
 import com.example.sergi.cycloguardian.R;
@@ -47,7 +40,6 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-import com.polidea.rxandroidble2.scan.ScanFilter;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -58,6 +50,10 @@ import java.util.List;
 import static android.net.wifi.WifiManager.WIFI_STATE_ENABLED;
 
 
+/**
+ * Main Activity
+ * @author Sergio Iglesias García
+ */
 public class MainActivity extends AppCompatActivity {
 
     Boolean wifiBol = false, bluetoothBol = false, gpsBol = false, cameraBol = false;
@@ -273,6 +269,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Method to remove the sesions of the user
+     * @param myDb the dataBAse
+     */
     private void removeSesionsUser(AppDataBase myDb) {
         myDb.sessionDao().deleteAllSessions();
         myDb.incidenceDao().deleteAllIncidences();
@@ -286,6 +286,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Button to configure the Wifi
+     * @param view
+     */
     public void configureWifi(View view) {
         WifiManager wifiServ = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wifiServ.isWifiEnabled()){
@@ -309,6 +313,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Button to configure the GPS
+     * @param view
+     */
     public void configureGPS(View view) {
         LocationManager locationManager = (LocationManager)getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -345,6 +353,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Button to configure the Bluetooth
+     * @param view
+     */
     public void configureBluetooth(View view) {
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter.isEnabled()) {
@@ -370,6 +382,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Button to configure the camera
+     * @param view
+     */
     public void linkCamera(View view) {
         WifiManager wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         Boolean cameraNetworkEnabled = false;
@@ -457,12 +473,20 @@ public class MainActivity extends AppCompatActivity {
 
 
     //Para la comprobación de permisos del servicio de GPS
+
+    /**
+     * Check the GPS permissions
+     * @return
+     */
     private boolean checkPermissions() {
         int permissionState = ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION);
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
+    /**
+     * Set the GPS permissions
+     */
     private void startLocationPermissionRequest() {
         ActivityCompat.requestPermissions(MainActivity.this,
                 new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
@@ -470,7 +494,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Method to start the service and the monitoring
+     * @param view
+     */
     public void startService(View view) {
         //Iniciamos otra actividad
         if (cameraBol == true && bluetoothBol == true && gpsBol == true && wifiBol == true) {
@@ -500,12 +527,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Method to remove the user logged from the dataBase
+     * @param appDataBase the database
+     * @param userEntity the user to delete
+     */
     private void removeRegisterToDataBase(AppDataBase appDataBase, UserEntity userEntity) {
         appDataBase.userDao().deleteUser(userEntity);
 
     }
 
+
+    /**
+     * Method to remove the photos in the storage
+     */
     private void removePhotosLastSession() {
         File photoFile;
         AppDataBase myDb = AppDataBase.getAppDataBase(this.getApplicationContext());

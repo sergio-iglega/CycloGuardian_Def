@@ -11,11 +11,20 @@ public class IncomingCameraMessageActionRecive extends IncomingCameraMessage {
 
     }
 
+    /**
+     * Constructor con argumentos
+     * @param rval
+     * @param msg_id
+     */
     public IncomingCameraMessageActionRecive(int rval, int msg_id){
         this.rval = rval;
         this.msg_id = msg_id;
     }
 
+    /**
+     * Parsea una  cadena en los distintos atributos
+     * @param cadToken
+     */
     @Override
     public void parserMessage(String cadToken) {
 

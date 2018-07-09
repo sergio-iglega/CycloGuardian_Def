@@ -6,6 +6,11 @@ package com.example.sergi.cycloguardian.Messages;
 
 public abstract class OutcomingCameraMessage extends CameraMessage {
 
+    /**
+     * Compone un mensaje a partir de los atributos para enviarlo
+     * a través del socket
+     * @return el mensaje
+     */
     public abstract String componerMensajePhoto();
 
 

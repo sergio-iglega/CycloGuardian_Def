@@ -1,38 +1,33 @@
 package com.example.sergi.cycloguardian.Job;
 
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobRequest;
-import com.example.sergi.cycloguardian.Activities.StartActivity;
 import com.example.sergi.cycloguardian.Database.AppDataBase;
 import com.example.sergi.cycloguardian.Database.IncidenceEntity;
 import com.example.sergi.cycloguardian.Database.PhotoEntity;
 import com.example.sergi.cycloguardian.Database.UserEntity;
-import com.example.sergi.cycloguardian.Files.Photo;
-import com.example.sergi.cycloguardian.R;
+import com.example.sergi.cycloguardian.Models.Photo;
 import com.example.sergi.cycloguardian.Retrofit.APIClient;
 import com.example.sergi.cycloguardian.Retrofit.RestInterface;
 import com.example.sergi.cycloguardian.Retrofit.UploadPhotoResponse;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.Socket;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -40,6 +35,10 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.content.Context.CONNECTIVITY_SERVICE;
+import static android.net.ConnectivityManager.TYPE_MOBILE;
+import static android.net.ConnectivityManager.TYPE_WIFI;
 
 /**
  * Created by sergi on 23/04/2018.
@@ -52,6 +51,11 @@ public class SyncJobIncidence extends Job {
     RestInterface restInterface;
     Boolean successSignIncidence = true;
 
+    /**
+     * Trabajo de subida
+     * @param params
+     * @return
+     */
     @NonNull
     @Override
     protected Result onRunJob(@NonNull Params params) {
@@ -101,6 +105,46 @@ public class SyncJobIncidence extends Job {
                     List<UserEntity> userEntityList = dataBase.userDao().getAll();
                     RequestBody token = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(userEntityList.get(0).getToken()));
 
+                  /*  ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(CONNECTIVITY_SERVICE);
+                    if (connectivityManager == null) throw new AssertionError();
+
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        for (Network net : connectivityManager.getAllNetworks()) {
+                            NetworkInfo info = connectivityManager.getNetworkInfo(net);
+                            if (info != null && info.getType() == TYPE_MOBILE) {
+                                Log.i("NET", info.getExtraInfo());
+                                //Call retrofit service
+                                Call<UploadPhotoResponse> uploadPhotoResponseCall = restInterface.uploadPhoto(body, name, uuidIncidencia,
+                                        uuidSesion, latitud, longitud, timeIncidence, distanceSensor, uuidPhoto, namePhoto, rutaAndroid, token);
+                                uploadPhotoResponseCall.enqueue(new Callback<UploadPhotoResponse>() {
+                                    @Override
+                                    public void onResponse(Call<UploadPhotoResponse> call, Response<UploadPhotoResponse> response) {
+                                        UploadPhotoResponse uploadPhotoResponse = response.body();
+                                        String type = uploadPhotoResponse.getType();
+                                        String rval = uploadPhotoResponse.getRval();
+                                        String upload = uploadPhotoResponse.getUpload();
+
+                                        Log.i("JOB INCIDENCE", "En trabajo" + upload + rval);
+
+                                        if (upload.equals("fail")) {  //Comprobar el tipo de error
+                                            if (!rval.equals("existing_incidence")) {
+                                                successSignIncidence = false;
+                                            }
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<UploadPhotoResponse> call, Throwable t) {
+                                        successSignIncidence = false;
+                                        call.cancel();
+                                        t.printStackTrace();
+                                    }
+                                });
+                            }
+                        }
+                    }*/
                     //Call retrofit service
                     Call<UploadPhotoResponse> uploadPhotoResponseCall = restInterface.uploadPhoto(body, name, uuidIncidencia,
                             uuidSesion, latitud, longitud, timeIncidence, distanceSensor, uuidPhoto, namePhoto, rutaAndroid, token);
@@ -151,12 +195,19 @@ public class SyncJobIncidence extends Job {
     }
 
 
+    /**
+     * Metodo que se ejecuta cuándo no se ha podido completar el trabajo
+     * @param newJobId
+     */
     @Override
     protected void onReschedule(int newJobId) {
         // the rescheduled job has a new ID
         Log.i("JOB INCIDENCE", "No se ha realizado el trabajo");
     }
 
+    /**
+     * Programa un trabajo de subida de una incidencia
+     */
     public static void scheduleJob() {
        Log.i("JOB INCIDENCE", "Lanzando trabajo");
         new JobRequest.Builder(SyncJobIncidence.TAG)
@@ -169,20 +220,4 @@ public class SyncJobIncidence extends Job {
                 .schedule();
     }
 
-    private boolean haveNetworkConnection() {
-        boolean haveConnectedWifi = false;
-        boolean haveConnectedMobile = false;
-
-        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-        for (NetworkInfo ni : netInfo) {
-            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-                if (ni.isConnected())
-                    haveConnectedWifi = true;
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (ni.isConnected())
-                    haveConnectedMobile = true;
-        }
-        return haveConnectedWifi || haveConnectedMobile;
-    }
 }

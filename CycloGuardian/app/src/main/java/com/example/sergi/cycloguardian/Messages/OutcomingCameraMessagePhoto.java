@@ -6,11 +6,19 @@ package com.example.sergi.cycloguardian.Messages;
 
 public class OutcomingCameraMessagePhoto extends OutcomingCameraMessage{
 
+    /**
+     * Constructor con argumentos
+     * @param msg_id
+     */
     public OutcomingCameraMessagePhoto(int msg_id) {
         this.msg_id = msg_id;
     }
 
 
+    /**
+     * Composicion del mensaje
+     * @return
+     */
     @Override
     public String componerMensajePhoto() {
         String cadena = "{\"msg_id\":" + msg_id + ",\"token\":" + token + "}";

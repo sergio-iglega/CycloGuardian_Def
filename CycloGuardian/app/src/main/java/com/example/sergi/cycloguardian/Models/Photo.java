@@ -1,6 +1,5 @@
-package com.example.sergi.cycloguardian.Files;
+package com.example.sergi.cycloguardian.Models;
 
-import android.graphics.Bitmap;
 import android.os.Environment;
 
 import java.io.File;

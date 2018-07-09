@@ -11,12 +11,22 @@ public class IncomingCameraMessageReply extends IncomingCameraMessage {
 
     }
 
+    /**
+     * Constructor con argumentos
+     * @param rval
+     * @param msg_id
+     * @param param
+     */
     public  IncomingCameraMessageReply(int rval, int msg_id, int param) {
         this.paramToken = param;
         this.rval = rval;
         this.msg_id = msg_id;
     }
 
+    /**
+     * Parsea la cadena
+     * @param cadToken
+     */
     @Override
     public void parserMessage(String cadToken) {
         String delims = "[{,}]";
