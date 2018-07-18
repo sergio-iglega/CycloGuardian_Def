@@ -51,8 +51,8 @@ import static android.net.wifi.WifiManager.WIFI_STATE_ENABLED;
 
 
 /**
- * Main Activity
- * @author Sergio Iglesias García
+ * Actividad principal de la aplicación
+ * @author sergi
  */
 public class MainActivity extends AppCompatActivity {
 

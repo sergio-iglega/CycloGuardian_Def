@@ -8,6 +8,10 @@ import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.mikepenz.aboutlibraries.ui.LibsActivity;
 
+/**
+ * Actividad encargada de mostrar las librerias usadas en la aplicación
+ * @author sergi
+ */
 public class AboutActivity extends LibsActivity {
 
     @Override

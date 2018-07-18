@@ -33,7 +33,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
+/**
+ * Actividad encargada del login en la aplicación
+ * @author sergi
+ */
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
@@ -97,6 +100,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Método encargado de la lógica de autenticación de usuarios
+     */
     public void login() {
         Log.d(TAG, "Login");
 
@@ -186,6 +192,9 @@ public class LoginActivity extends AppCompatActivity {
         moveTaskToBack(true);
     }
 
+    /**
+     * Método que se ejecuta cuando se ha realizado un login correcto
+     */
     public void onLoginSuccess() {
 
         //Change to start Activity
@@ -196,12 +205,20 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Método que se ejecuta cuando se ha realizado un login incorrecto
+     * @param mensaje de error
+     */
     public void onLoginFailed(String mensaje) {
         Toast.makeText(getBaseContext(), mensaje, Toast.LENGTH_LONG).show();
 
         _loginButton.setEnabled(true);
     }
 
+    /**
+     * Metodo encargado de validar los campos de login
+     * @return true si son todos correctos
+     */
     public boolean validate() {
         boolean valid = true;
 
@@ -226,6 +243,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Crea un registro de usuario activo en la base de datos de la aplicacion
+     * @param dataBase instancia de la base de datos
+     * @param idUser identificador de usuario
+     * @param email email
+     * @param password contraseña
+     * @param token
+     */
     private void createRegisterToDataBase(AppDataBase dataBase, int idUser, String email, String password, String token) {
         UserEntity userEntity = new UserEntity();
         userEntity.setIdUser(idUser);

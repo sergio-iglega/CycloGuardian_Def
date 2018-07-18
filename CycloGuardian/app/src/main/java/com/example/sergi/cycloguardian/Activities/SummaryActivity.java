@@ -19,6 +19,10 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Queue;
 
+/**
+ * Actividad que muestra el resumen de la sesión
+ * @author sergi
+ */
 public class SummaryActivity extends AppCompatActivity {
 
     TextView textViewDateStart, textViewDateStop, textViewTimeElapsed, textViewIncidencesNumber,
@@ -114,11 +118,18 @@ public class SummaryActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Botón para redirigir a la página principal
+     * @param view
+     */
     public void goToHomeButton(View view) {
         goHome();
         this.finish();
     }
 
+    /**
+     * Metodo que retorna al usuario a la página principal
+     */
     public void goHome() {
         //TODO delete all photos from database
         removePhotosSession();
@@ -128,6 +139,9 @@ public class SummaryActivity extends AppCompatActivity {
         startActivity(intentMain);
     }
 
+    /**
+     * Método que borra todas las fotos de las incidencias de la sesión
+     */
     private void removePhotosSession() {
         File photoFile;
         AppDataBase myDb = AppDataBase.getAppDataBase(this.getApplicationContext());

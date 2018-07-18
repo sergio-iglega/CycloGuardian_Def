@@ -19,6 +19,10 @@ import com.example.sergi.cycloguardian.R;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 
+/**
+ * Activity que muestra información de la aplicación
+ * @author sergi
+ */
 public class InfoActivity extends MaterialAboutActivity {
 
     @NonNull

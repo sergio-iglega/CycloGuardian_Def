@@ -28,6 +28,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Actividad encargada del registro de usuarios
+ *@author sergi
+ */
 public class SignupActivity extends AppCompatActivity {
 
     private static final String TAG = "SignupActivity";
@@ -88,6 +92,9 @@ public class SignupActivity extends AppCompatActivity {
         msgSignUp = getString(R.string.conexion_server_fail);
     }
 
+    /**
+     * Metodo dónde se encuentra toda la lógica del registro
+     */
     public void signup() {
         Log.d(TAG, "Signup");
 
@@ -157,18 +164,29 @@ public class SignupActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Metodo que se ejecuta cuándo se produce un registro correcto
+     */
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
         finish();
     }
 
+    /**
+     * Metodo que se ejecuta cuándo se produce un registro iccorrecto
+     * @param mensaje de error
+     */
     public void onSignupFailed(String mensaje) {
         Toast.makeText(getBaseContext(), mensaje, Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }
 
+    /**
+     * Metodo encargado de validar los campos de login
+     * @return true si son todos correctos
+     */
     public boolean validate() {
         boolean valid = true;
 

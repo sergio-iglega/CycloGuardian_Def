@@ -34,6 +34,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Actividad que se encarga de mostrar los datos de la monitorización
+ * @author sergi
+ */
 public class StartActivity extends AppCompatActivity {
 
     // A reference to the service used to get location updates.
@@ -146,6 +150,10 @@ public class StartActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Método para detener la monitorización y por tanto la sesión
+     * @param view
+     */
     public void stopSession(View view) {
         long elapsedMillis = 0;
 
@@ -176,6 +184,11 @@ public class StartActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Metodo para actualizar la sesión actual en la base de datos
+     * @param appDataBase
+     * @param session
+     */
     private void updateSession(AppDataBase appDataBase, Session session) {
         SessionEntity sessionEntity;
         sessionEntity = appDataBase.sessionDao().getSessionByUUID(session.getSessionUUID().toString());

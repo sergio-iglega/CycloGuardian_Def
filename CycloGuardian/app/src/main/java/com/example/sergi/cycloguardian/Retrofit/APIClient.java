@@ -25,6 +25,16 @@ import static com.example.sergi.cycloguardian.Retrofit.SSLConfig.getSSLConfig;
 public class APIClient {
     private static Retrofit retrofit = null;
 
+    /**
+     * Metodo que obtiene una isntancia de Retrofit
+     * @param context
+     * @return
+     * @throws CertificateException
+     * @throws NoSuchAlgorithmException
+     * @throws KeyStoreException
+     * @throws KeyManagementException
+     * @throws IOException
+     */
     public static Retrofit getRetrofit(Context context) throws CertificateException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, IOException {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())

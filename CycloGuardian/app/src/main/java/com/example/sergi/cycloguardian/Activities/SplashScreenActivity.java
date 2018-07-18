@@ -22,6 +22,11 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Actividad que se encarga de cargar los componentes de la aplicación
+ * y de mostrar el splashScreen
+ * @author sergi
+ */
 public class SplashScreenActivity extends AppCompatActivity {
 
     private SharedPreferences prefs;
@@ -87,12 +92,22 @@ public class SplashScreenActivity extends AppCompatActivity {
         timer.schedule(task, Constants.SPLASH_SCREEN_DELAY);
     }
 
+    /**
+     * Metodo para guardar en el shared preferences que el usuario ya ha usado
+     * por primera vez la aplicación
+     * @param b
+     */
     private void saveFirstTimeOnSharedPreferences(boolean b) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("first_time", b);
         editor.apply();
     }
 
+    /**
+     * Compreuba si el usuario ya tiene iniciada la sesión
+     * @param myAppDataBase base de datos
+     * @return logeado
+     */
     private boolean isUserInDataBase(AppDataBase myAppDataBase) {
         Boolean logged = false;
 
@@ -105,6 +120,10 @@ public class SplashScreenActivity extends AppCompatActivity {
         return logged;
     }
 
+    /**
+     * Comprueba si es la primera vez que el usuario utiliza la aplicación
+     * @return boolean
+     */
     private Boolean getFirstTimeSharedPreferences() {
         return prefs.getBoolean("first_time", true);
     }
