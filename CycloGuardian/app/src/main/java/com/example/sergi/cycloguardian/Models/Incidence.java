@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
+ * Clase que representa una incidencia
  * Created by sergi on 13/04/2018.
  */
 

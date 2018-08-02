@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
+ * Pojo para obtener las respuestas del servidor
  * Created by sergi on 23/05/2018.
  */
 

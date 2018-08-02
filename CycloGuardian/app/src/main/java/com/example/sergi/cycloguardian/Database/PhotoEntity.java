@@ -5,18 +5,41 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 /**
+ * Entidad fotos
  * Created by sergi on 23/04/2018.
  */
 
 @Entity(tableName = "photos")
 public class PhotoEntity {
+    /**
+     * Identificador único de una foto
+     */
     @PrimaryKey @NonNull
     String uuidPhoto;
 
+    /**
+     * Identificador de la incidencia a la que pertenece la foto
+     */
     String uuidIncidence;
+
+    /**
+     * Nombre de la foto
+     */
     String namePhoto;
+
+    /**
+     * Ruta de la foto en el dispositivo
+     */
     String rutaPhoto;
+
+    /**
+     * Ruta de la foto en el servidor
+     */
     String rutaPhotoServer;
+
+    /**
+     * Indica si la foto se ha reportado al servidor
+     */
     Boolean syncronized;
 
 

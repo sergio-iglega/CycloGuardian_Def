@@ -7,6 +7,7 @@ import java.util.Queue;
 import java.util.UUID;
 
 /**
+ * Clase que representa una sesión
  * Created by sergi on 23/04/2018.
  */
 

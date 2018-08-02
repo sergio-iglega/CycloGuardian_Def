@@ -366,7 +366,10 @@ public class FragmentGraph extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
-    // This method will be called when a HelloWorldEvent is posted
+    /**
+     * Subscripción al evento para la recepción de nuevas distancias
+     * @param event
+     */
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     public void onEvent(SensorEvent event){
        float dateSen1, dateSen2;
@@ -384,6 +387,11 @@ public class FragmentGraph extends Fragment {
     }
 
 
+    /**
+     * Añade la distancias de los dos sensores a la gráfica
+     * @param valS1
+     * @param valS2
+     */
     private  void setData(float valS1, float valS2) {
         //Añadimos los valores al array list
         yAXESsen1.add(new Entry(index, valS1));

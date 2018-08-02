@@ -3,6 +3,7 @@ package com.example.sergi.cycloguardian.Events;
 import java.util.Queue;
 
 /**
+ * Evento utilizado para notificar de nuevas distancias
  * Created by sergi on 06/04/2018.
  */
 

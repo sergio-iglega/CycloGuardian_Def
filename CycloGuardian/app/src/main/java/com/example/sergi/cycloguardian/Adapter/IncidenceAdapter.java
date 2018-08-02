@@ -33,11 +33,20 @@ public class IncidenceAdapter extends BaseAdapter{
     }
 
 
+    /**
+     * Obtiene el número de imágenes
+     * @return numeroImagenes
+     */
     @Override
     public int getCount() {
         return incidenceList.size();
     }
 
+    /**
+     * Obtiene la imagen de la posicion i
+     * @param i posicion
+     * @return Objeto
+     */
     @Override
     public Object getItem(int i) {
         return null;
@@ -48,7 +57,13 @@ public class IncidenceAdapter extends BaseAdapter{
         return 0;
     }
 
-    // returns an ImageView view
+    /**
+     * Obtiene un imageView de una determinada posicon
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return imageView
+     */
     public View getView(int position, View convertView, ViewGroup parent) {
 
         // create a ImageView programmatically

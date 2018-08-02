@@ -52,7 +52,7 @@ public class SyncJobIncidence extends Job {
     Boolean successSignIncidence = true;
 
     /**
-     * Trabajo de subida
+     * Trabajo de subida de una incidencia
      * @param params
      * @return
      */

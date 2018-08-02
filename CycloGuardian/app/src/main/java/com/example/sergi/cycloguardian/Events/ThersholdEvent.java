@@ -1,6 +1,7 @@
 package com.example.sergi.cycloguardian.Events;
 
 /**
+ * Evento para notificar de que se ha superado el límite
  * Created by sergi on 03/04/2018.
  */
 

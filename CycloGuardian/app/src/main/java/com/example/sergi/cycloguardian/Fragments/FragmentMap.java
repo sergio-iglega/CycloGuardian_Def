@@ -36,6 +36,9 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * @author sergi
+ */
 
 public class FragmentMap extends Fragment implements OnMapReadyCallback{
 
@@ -104,7 +107,10 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback{
         EventBus.getDefault().unregister(this);
     }
 
-    // This method will be called when a ThersholEvent is posted
+    /**
+     * Recepción del evento de nueva ubicación
+     * @param event
+     */
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     public void onEvent(ThersholdEvent event){
         // Implementation when somo event was recive
@@ -160,7 +166,11 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback{
     }
 
 
-
+    /**
+     * Método para añadir un nuevo marcador al mapa
+     * @param positionIncidence
+     * @param namePhoto
+     */
     public void addMarkerToMap(LatLng positionIncidence, String namePhoto) {
 
         float minX = 0.0f;  //Para calcular aleatoriamente el color del marcador

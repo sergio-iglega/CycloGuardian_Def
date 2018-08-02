@@ -21,6 +21,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+/**
+ * Fragment que muestra la última foto
+ * @author sergi
+ */
 
 public class FragmentGallery extends Fragment {
 
@@ -79,7 +83,10 @@ public class FragmentGallery extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
-    //Capture of event
+    /**
+     * Subscripción al evento para la recepción de nuevas imágenes
+     * @param thersholdEvent
+     */
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     public void onEvent(ThersholdEvent thersholdEvent) {
         //Toast.makeText(getActivity(), myApplication.mySession.getIncidenceArryList().get(thersholdEvent.getPosIncidence()).getImage().getNamePhoto(), Toast.LENGTH_SHORT).show();;
@@ -88,6 +95,11 @@ public class FragmentGallery extends Fragment {
     }
 
 
+    /**
+     * Meuestra la ultima imagen en el imageView
+     * @param photo
+     * @param index posicion
+     */
     private void showImage(final Photo photo, int index) {
         this.lastImage = index;
         textViewTitle.setText(photo.getNamePhoto());

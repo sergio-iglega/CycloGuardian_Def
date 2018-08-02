@@ -16,6 +16,11 @@ import com.example.sergi.cycloguardian.Messages.IncomingCameraMessageVideoStart;
 
 public class Parser {
 
+    /**
+     * Metodo utilizado para el parseo de la cadena recibida por la cámara
+     * @param cadena
+     * @return
+     */
     public IncomingCameraMessage parsearMensaje(byte[] cadena) {
         String cad = new String(cadena);
         String cadToken = cad.replace(" ", "");  //Quitamos los espacios existentes en la cadena
@@ -72,6 +77,11 @@ public class Parser {
 
     }
 
+    /**
+     * Metodo para extraer el nombre de una imagen
+     * @param ruta
+     * @return
+     */
     public String extractFileName(String ruta) {
         String fileName = null;
         String rutaSin = ruta.replace(" ", "");  //Quitamos los espacios existentes en la cadena

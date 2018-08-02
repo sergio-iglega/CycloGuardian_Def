@@ -3,6 +3,7 @@ package com.example.sergi.cycloguardian.Events;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
+ * Evento utilizado para notificar de una nueva localizacion
  * Created by sergi on 09/04/2018.
  */
 

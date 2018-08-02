@@ -7,6 +7,7 @@ import com.evernote.android.job.Job;
 import com.evernote.android.job.JobCreator;
 
 /**
+ * Clase encargada de la creación de los trabajos de subida
  * Created by sergi on 23/04/2018.
  */
 

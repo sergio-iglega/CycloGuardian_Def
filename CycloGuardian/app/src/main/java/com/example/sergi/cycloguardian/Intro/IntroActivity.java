@@ -18,6 +18,10 @@ import agency.tango.materialintroscreen.SlideFragment;
 import agency.tango.materialintroscreen.SlideFragmentBuilder;
 import agency.tango.materialintroscreen.animations.IViewTranslation;
 
+/**
+ * Actividad para la introducción de ayuda
+ * @author sergi
+ */
 public class IntroActivity extends com.heinrichreimersoftware.materialintro.app.IntroActivity{
 
     @Override

@@ -4,6 +4,8 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
+ * Pojo para obtener la respuesta del servidor ante una petición de
+ * reportar una incidencia
  * Created by sergi on 23/05/2018.
  */
 

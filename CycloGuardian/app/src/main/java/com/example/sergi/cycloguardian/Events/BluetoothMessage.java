@@ -3,6 +3,7 @@ package com.example.sergi.cycloguardian.Events;
 import android.util.Log;
 
 /**
+ * Evento creado para la notificación de nuevos eventos en el Bluetooth
  * Created by sergi on 29/05/2018.
  */
 

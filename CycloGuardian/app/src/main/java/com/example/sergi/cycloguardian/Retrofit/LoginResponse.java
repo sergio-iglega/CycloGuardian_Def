@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
+ * Pojo para obtener las respuestas del servidor ante una petición de login
  * Created by sergi on 21/05/2018.
  */
 

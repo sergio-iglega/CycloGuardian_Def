@@ -25,7 +25,9 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-
+/**
+ * @author sergi
+ */
 
 public class FragmentGaleryList extends Fragment {
     View mView;
@@ -98,7 +100,10 @@ public class FragmentGaleryList extends Fragment {
 
     }
 
-    //Subscripción al evento
+    /**
+     * Subscripción al evento para la recepción de nuevas imágenes
+     * @param event
+     */
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     public void onEvent(final ThersholdEvent event) {
         //Toast.makeText(getActivity(), "HOLA", Toast.LENGTH_SHORT).show();
